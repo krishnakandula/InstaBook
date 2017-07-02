@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">InstaBook</string>
+
+    <!--Menu items-->
+    <string name="menu_item_cover_flow">Cover Flow</string>
+    <string name="menu_item_random_book">Random Book</string>
+    <string name="menu_item_favorites">Favorites</string>
 </resources>
