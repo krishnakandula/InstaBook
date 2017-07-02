@@ -10,7 +10,6 @@ import lombok.NonNull;
  * Created by Krishna Chaitanya Kandula on 6/25/17.
  */
 @Data
-@AllArgsConstructor(suppressConstructorProperties = true)
 public class Book {
 
     @NonNull

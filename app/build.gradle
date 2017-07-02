@@ -21,6 +21,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
@@ -60,7 +64,8 @@ dependencies {
     compile 'com.google.guava:guava:22.0-android'
 
     //Lombok
-    provided 'org.projectlombok:lombok:1.12.6'
+    provided "org.projectlombok:lombok:1.16.16"
+    annotationProcessor "org.projectlombok:lombok:1.16.16"
 
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
