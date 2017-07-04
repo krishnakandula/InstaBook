@@ -32,9 +32,6 @@ public class CoverFlowFragment extends Fragment implements CoverFlowContract.Vie
 
     private OnCoverFlowFragmentInteractionListener mListener;
 
-    @Inject
-    InstaBookApi instaBookApi;
-
     @BindView(R.id.coverImageView_coverFlowFragment)
     ImageView coverImageView;
 
@@ -50,7 +47,6 @@ public class CoverFlowFragment extends Fragment implements CoverFlowContract.Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainApplication) getActivity().getApplication()).getAppComponent().inject(this);
     }
 
     @Override
@@ -62,6 +58,7 @@ public class CoverFlowFragment extends Fragment implements CoverFlowContract.Vie
         Picasso.with(getContext())
                 .load(String.format("%s/books/cover/%s", Constants.INSTABOOK_API_BASE_URL, id))
                 .into(coverImageView);
+
 
         return view;
     }

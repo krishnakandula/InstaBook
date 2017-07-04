@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
  */
 
 public interface BasePresenter<VIEW> {
-    void initialize(@NonNull VIEW view);
+    void start();
 
     VIEW getView();
 }

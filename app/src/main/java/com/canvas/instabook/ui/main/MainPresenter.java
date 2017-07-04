@@ -1,18 +1,23 @@
 package com.canvas.instabook.ui.main;
 
+import javax.inject.Inject;
+
 import lombok.NonNull;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/1/17.
  */
-
 public class MainPresenter implements MainContract.Presenter {
     @NonNull
-    private MainContract.View view;
+    private final MainContract.View view;
+
+    @Inject
+    public MainPresenter(MainContract.View view) {
+        this.view = view;
+    }
 
     @Override
-    public void initialize(@NonNull MainContract.View view) {
-        this.view = view;
+    public void start() {
         view.launchCoverFlowView();
     }
 
@@ -20,7 +25,6 @@ public class MainPresenter implements MainContract.Presenter {
     public MainContract.View getView() {
         return view;
     }
-
 
     @Override
     public void onCoverFlowNavItemClicked() {

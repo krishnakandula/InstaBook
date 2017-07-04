@@ -3,6 +3,11 @@ package com.canvas.instabook.ui.coverflow;
 import android.support.annotation.NonNull;
 
 import com.canvas.instabook.data.models.Book;
+import com.canvas.instabook.data.models.Books;
+import com.canvas.instabook.data.source.BookRepository;
+import com.canvas.instabook.data.source.BookRepositoryContract;
+
+import javax.inject.Inject;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/2/17.
@@ -10,11 +15,21 @@ import com.canvas.instabook.data.models.Book;
 
 public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
-    private CoverFlowContract.View view;
+    @NonNull
+    private final CoverFlowContract.View view;
+
+    @NonNull
+    private final BookRepository bookRepository;
+
+    @Inject
+    public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepository bookRepository) {
+        this.view = view;
+        this.bookRepository = bookRepository;
+    }
 
     @Override
-    public void initialize(@NonNull CoverFlowContract.View view) {
-        this.view = view;
+    public void start() {
+
     }
 
     @Override

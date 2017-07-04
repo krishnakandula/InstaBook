@@ -2,10 +2,6 @@ package com.canvas.instabook.app;
 
 import android.app.Application;
 
-import com.canvas.instabook.modules.AppComponent;
-import com.canvas.instabook.modules.AppModule;
-import com.canvas.instabook.modules.DaggerAppComponent;
-
 /**
  * Created by Krishna Chaitanya Kandula on 6/4/17.
  */
