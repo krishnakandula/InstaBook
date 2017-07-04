@@ -1,5 +1,6 @@
 package com.canvas.instabook.modules;
 
+import com.canvas.instabook.ui.coverflow.CoverFlowFragment;
 import com.canvas.instabook.ui.main.MainActivity;
 
 import javax.inject.Singleton;
@@ -13,4 +14,5 @@ import dagger.Component;
 @Component(modules = {AppModule.class, NetworkModule.class, PresenterModule.class})
 public interface AppComponent {
     void inject(MainActivity target);
+    void inject(CoverFlowFragment coverFlowFragment);
 }

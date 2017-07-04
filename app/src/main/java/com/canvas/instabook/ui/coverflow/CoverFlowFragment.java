@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +12,28 @@ import android.widget.ImageView;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.Constants;
+import com.canvas.instabook.app.MainApplication;
 import com.canvas.instabook.data.models.Book;
+import com.canvas.instabook.data.models.Books;
+import com.canvas.instabook.network.InstaBookApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CoverFlowFragment extends Fragment implements CoverFlowContract.View {
 
     private OnCoverFlowFragmentInteractionListener mListener;
+
+    @Inject
+    InstaBookApi instaBookApi;
 
     @BindView(R.id.coverImageView_coverFlowFragment)
     ImageView coverImageView;
@@ -38,7 +50,7 @@ public class CoverFlowFragment extends Fragment implements CoverFlowContract.Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ((MainApplication) getActivity().getApplication()).getAppComponent().inject(this);
     }
 
     @Override
