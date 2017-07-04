@@ -1,8 +1,8 @@
 package com.canvas.instabook.ui.coverflow;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +11,15 @@ import android.widget.ImageView;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.Constants;
+import com.canvas.instabook.data.models.Book;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CoverFlowFragment extends Fragment {
+public class CoverFlowFragment extends Fragment implements CoverFlowContract.View {
 
     private OnCoverFlowFragmentInteractionListener mListener;
 
@@ -60,6 +63,21 @@ public class CoverFlowFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnCoverFlowFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void showCoverGrid(@NonNull List<Book> books) {
+
+    }
+
+    @Override
+    public void updateCoverGrid(@NonNull List<Book> additionalBooks) {
+
+    }
+
+    @Override
+    public void showBookView(@NonNull Book book) {
+
     }
 
     @Override
