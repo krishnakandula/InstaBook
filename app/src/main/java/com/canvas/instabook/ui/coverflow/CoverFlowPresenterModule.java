@@ -1,11 +1,12 @@
 package com.canvas.instabook.ui.coverflow;
 
-import com.canvas.instabook.data.source.BookRepository;
+import android.support.annotation.NonNull;
+
 import com.canvas.instabook.data.source.BookRepositoryContract;
 
 import dagger.Module;
 import dagger.Provides;
-import lombok.NonNull;
+
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -18,12 +19,7 @@ public class CoverFlowPresenterModule {
     private final CoverFlowContract.View mView;
 
     @Provides
-    public CoverFlowContract.View provideView() {
-        return mView;
-    }
-
-    @Provides
-    public CoverFlowContract.Presenter provideCoverFlowPresenter(CoverFlowContract.View view, BookRepository bookRepository) {
-        return new CoverFlowPresenter(view);
+    public CoverFlowContract.Presenter provideCoverFlowPresenter(@NonNull BookRepositoryContract bookRepository) {
+        return new CoverFlowPresenter(mView, bookRepository);
     }
  }

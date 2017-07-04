@@ -25,7 +25,7 @@ public interface BookRepositoryContract {
 
     void getBook(@NonNull LoadBookCallback callback);
 
-    void getBooks(@NonNull LoadBooksCallback callback);
+    void getBooks(int limit, int offset, @NonNull LoadBooksCallback callback);
 
     void refreshBooks();
 }

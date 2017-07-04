@@ -30,12 +30,15 @@ import retrofit2.Response;
 
 public class CoverFlowFragment extends Fragment implements CoverFlowContract.View {
 
-    private OnCoverFlowFragmentInteractionListener mListener;
+    @Inject
+    CoverFlowContract.Presenter presenter;
 
     @BindView(R.id.coverImageView_coverFlowFragment)
     ImageView coverImageView;
 
-    public static final String TAG = CoverFlowFragment.class.getSimpleName();
+    private OnCoverFlowFragmentInteractionListener mListener;
+
+    public static final String LOG_TAG = CoverFlowFragment.class.getSimpleName();
 
     public CoverFlowFragment() {
     }
@@ -75,8 +78,14 @@ public class CoverFlowFragment extends Fragment implements CoverFlowContract.Vie
     }
 
     @Override
-    public void showCoverGrid(@NonNull List<Book> books) {
+    public void onResume() {
+        super.onResume();
+        presenter.start();
+    }
 
+    @Override
+    public void showCoverGrid(@NonNull List<Book> books) {
+        Log.d(LOG_TAG, books.toString());
     }
 
     @Override
