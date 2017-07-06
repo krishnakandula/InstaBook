@@ -1,4 +1,4 @@
-package com.canvas.instabook.modules;
+package com.canvas.instabook.app;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,7 +1,8 @@
-package com.canvas.instabook.modules;
+package com.canvas.instabook.network;
 
 import com.canvas.instabook.app.Constants;
 import com.canvas.instabook.network.InstaBookApi;
+import com.canvas.instabook.util.ApplicationScoped;
 import com.google.gson.Gson;
 
 import javax.inject.Named;
@@ -22,18 +23,20 @@ public class NetworkModule {
 
     @Provides
     @Named("BASE_URL")
+    @ApplicationScoped
     String provideBaseUrl(){
         return Constants.INSTABOOK_API_BASE_URL;
     }
 
     @Provides
     @Named("gsonConverterFactory")
+    @ApplicationScoped
     Converter.Factory provideConverterFactory() {
         return GsonConverterFactory.create();
     }
 
     @Provides
-    @Singleton
+    @ApplicationScoped
     Retrofit provideRetrofit(@Named("gsonConverterFactory") Converter.Factory converter, @Named("BASE_URL") String baseUrl){
         OkHttpClient client = new OkHttpClient.Builder().build();
         Retrofit retrofit = new Retrofit.Builder()
@@ -46,7 +49,7 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
+    @ApplicationScoped
     InstaBookApi provideInstaBookApi(Retrofit retrofit) {
         return retrofit.create(InstaBookApi.class);
     }

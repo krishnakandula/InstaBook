@@ -6,4 +6,6 @@ package com.canvas.instabook.app;
 
 public class Constants {
     public static final String INSTABOOK_API_BASE_URL = Config.INSTABOOK_API_BASE_URL;
+
+    public static final int BOOKS_LIMIT = 50;
 }

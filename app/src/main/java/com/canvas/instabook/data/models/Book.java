@@ -1,8 +1,7 @@
-package com.canvas.instabook.models;
+package com.canvas.instabook.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 

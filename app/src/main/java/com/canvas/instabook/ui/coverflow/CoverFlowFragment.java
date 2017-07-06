@@ -1,9 +1,10 @@
 package com.canvas.instabook.ui.coverflow;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,31 +12,39 @@ import android.widget.ImageView;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.Constants;
+import com.canvas.instabook.data.models.Book;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import lombok.NoArgsConstructor;
 
-public class CoverFlowFragment extends Fragment {
+@NoArgsConstructor
+public class CoverFlowFragment extends Fragment implements CoverFlowContract.View {
 
-    private OnCoverFlowFragmentInteractionListener mListener;
+    private CoverFlowContract.Presenter presenter;
 
     @BindView(R.id.coverImageView_coverFlowFragment)
     ImageView coverImageView;
 
-    public static final String TAG = CoverFlowFragment.class.getSimpleName();
+    private OnCoverFlowFragmentInteractionListener mListener;
 
-    public CoverFlowFragment() {
-    }
+    public static final String LOG_TAG = CoverFlowFragment.class.getSimpleName();
 
     public static CoverFlowFragment newInstance() {
         return new CoverFlowFragment();
     }
 
     @Override
+    public void setPresenter(CoverFlowContract.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -47,6 +56,7 @@ public class CoverFlowFragment extends Fragment {
         Picasso.with(getContext())
                 .load(String.format("%s/books/cover/%s", Constants.INSTABOOK_API_BASE_URL, id))
                 .into(coverImageView);
+
 
         return view;
     }
@@ -60,6 +70,27 @@ public class CoverFlowFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnCoverFlowFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.start();
+    }
+
+    @Override
+    public void showCoverGrid(@NonNull List<Book> books) {
+        Log.d(LOG_TAG, books.toString());
+    }
+
+    @Override
+    public void updateCoverGrid(@NonNull List<Book> additionalBooks) {
+
+    }
+
+    @Override
+    public void showBookView(@NonNull Book book) {
+
     }
 
     @Override
