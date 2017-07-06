@@ -21,8 +21,13 @@ public class MainPresenterModule {
     }
 
     @Provides
+    public MainContract.Presenter provideMainPresenter(MainPresenter mainPresenter) {
+        return mainPresenter;
+    }
+
+    @Provides
     @FragmentScoped
-    public MainContract.Presenter provideMainPresenter() {
-        return new MainPresenter(mView);
+    public MainContract.View provideMainView() {
+        return mView;
     }
 }

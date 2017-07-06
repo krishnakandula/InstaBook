@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.canvas.instabook.R;
-import com.canvas.instabook.app.AppComponent;
 import com.canvas.instabook.app.MainApplication;
 import com.canvas.instabook.ui.coverflow.CoverFlowContract;
 import com.canvas.instabook.ui.coverflow.CoverFlowFragment;
+import com.canvas.instabook.ui.coverflow.CoverFlowPresenter;
 import com.canvas.instabook.ui.coverflow.CoverFlowPresenterModule;
 
 import javax.inject.Inject;
@@ -23,7 +23,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         CoverFlowFragment.OnCoverFlowFragmentInteractionListener {
 
     @Inject
-    MainContract.Presenter presenter;
+    MainContract.Presenter mainPresenter;
+
+    @Inject
+    CoverFlowPresenter coverFlowPresenter;
 
     @BindView(R.id.mainBottomNavView_mainActivity)
     BottomNavigationView mainNavMenu;
@@ -45,12 +48,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 .coverFlowPresenterModule(new CoverFlowPresenterModule(coverFlowView))
                 .build()
                 .inject(this);
+
         ButterKnife.bind(this);
 
         mainNavMenu.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.menu_item_activity_main_cover_flow:
-                    presenter.onCoverFlowNavItemClicked();
+                    mainPresenter.onCoverFlowNavItemClicked();
                     return true;
                 default:
                     return false;
@@ -58,14 +62,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         });
     }
 
-    private void initializeNavFragments() {
-        coverFlowView = CoverFlowFragment.newInstance();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainPresenter.start();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.start();
+    private void initializeNavFragments() {
+        coverFlowView = CoverFlowFragment.newInstance();
     }
 
     @Override

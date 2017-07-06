@@ -12,13 +12,16 @@ import java.util.List;
  */
 
 public interface CoverFlowContract {
+
     interface View {
+        void setPresenter(CoverFlowContract.Presenter presenter);
         void showCoverGrid(@NonNull List<Book> books);
         void updateCoverGrid(@NonNull List<Book> additionalBooks);
         void showBookView(@NonNull Book book);
     }
 
     interface Presenter extends BasePresenter<CoverFlowContract.View> {
+        void setupListeners();
         void getBookList(int offset);
         void onCoverClickedListener(@NonNull Book book);
     }

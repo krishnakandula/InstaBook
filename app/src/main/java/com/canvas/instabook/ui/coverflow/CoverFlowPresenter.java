@@ -16,25 +16,26 @@ import javax.inject.Inject;
 public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @NonNull
-    private final CoverFlowContract.View view;
-
-    @NonNull
     private final BookRepositoryContract bookRepository;
 
-    @Inject
-    public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepositoryContract bookRepository) {
-        this.view = view;
-        this.bookRepository = bookRepository;
-    }
+    @NonNull
+    private final CoverFlowContract.View view;
 
-    @Override
-    public CoverFlowContract.View getView() {
-        return view;
+    @Inject
+    public CoverFlowPresenter(@NonNull BookRepositoryContract bookRepository, @NonNull CoverFlowContract.View view) {
+        this.bookRepository = bookRepository;
+        this.view = view;
     }
 
     @Override
     public void start() {
         getBookList(0);
+    }
+
+    @Inject
+    @Override
+    public void setupListeners() {
+        view.setPresenter(this);
     }
 
     @Override

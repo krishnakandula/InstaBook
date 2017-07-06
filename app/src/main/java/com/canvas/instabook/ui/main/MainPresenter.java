@@ -1,29 +1,25 @@
 package com.canvas.instabook.ui.main;
 
-import javax.inject.Inject;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
-import lombok.NonNull;
+import javax.inject.Inject;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/1/17.
  */
 public class MainPresenter implements MainContract.Presenter {
+
     @NonNull
     private final MainContract.View view;
 
     @Inject
-    public MainPresenter(MainContract.View view) {
+    public MainPresenter(@NonNull MainContract.View view) {
         this.view = view;
     }
 
-    @Override
     public void start() {
         view.launchCoverFlowView();
-    }
-
-    @Override
-    public MainContract.View getView() {
-        return view;
     }
 
     @Override

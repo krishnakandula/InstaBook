@@ -12,26 +12,19 @@ import android.widget.ImageView;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.Constants;
-import com.canvas.instabook.app.MainApplication;
 import com.canvas.instabook.data.models.Book;
-import com.canvas.instabook.data.models.Books;
-import com.canvas.instabook.network.InstaBookApi;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class CoverFlowFragment extends Fragment implements CoverFlowContract.View {
 
-    @Inject
-    CoverFlowContract.Presenter presenter;
+    private CoverFlowContract.Presenter presenter;
 
     @BindView(R.id.coverImageView_coverFlowFragment)
     ImageView coverImageView;
@@ -40,11 +33,13 @@ public class CoverFlowFragment extends Fragment implements CoverFlowContract.Vie
 
     public static final String LOG_TAG = CoverFlowFragment.class.getSimpleName();
 
-    public CoverFlowFragment() {
-    }
-
     public static CoverFlowFragment newInstance() {
         return new CoverFlowFragment();
+    }
+
+    @Override
+    public void setPresenter(CoverFlowContract.Presenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
