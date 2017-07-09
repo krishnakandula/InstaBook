@@ -6,9 +6,7 @@ import com.canvas.instabook.app.Constants;
 import com.canvas.instabook.data.models.Book;
 import com.canvas.instabook.data.models.Books;
 import com.canvas.instabook.data.source.BookRepositoryContract;
-import com.google.common.collect.Lists;
-
-import java.util.List;
+import com.canvas.instabook.ui.ViewState;
 
 import lombok.NonNull;
 
@@ -21,15 +19,16 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
     @NonNull
     private CoverFlowContract.View view;
 
+    private ViewState viewState;
+
     @NonNull
     private final BookRepositoryContract bookRepository;
-
-    private int state = 0;
 
     private static final String LOG_TAG = CoverFlowPresenter.class.getSimpleName();
 
     public CoverFlowPresenter(@NonNull BookRepositoryContract bookRepository) {
         this.bookRepository = bookRepository;
+        this.viewState = ViewState.SHOW_LOADING;
     }
 
     @Override
@@ -39,9 +38,8 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @Override
     public void start() {
-        if(state == 0) {
+        if(viewState == ViewState.SHOW_LOADING) {
             getData(0, false);
-            state = 1;
         } else {
             view.setData(view.getExistingData());
         }
@@ -56,11 +54,13 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
             public void onBooksLoaded(Books books) {
                 view.setData(books.getBooks());
                 view.stopLoading();
+                viewState = ViewState.SHOW_CONTENT;
             }
 
             @Override
             public void onDataNotAvailable() {
                 //Show view error screen
+                viewState = ViewState.SHOW_ERROR;
             }
         });
     }
