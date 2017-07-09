@@ -1,33 +1,39 @@
 package com.canvas.instabook.ui.coverflow;
 
-import android.support.annotation.NonNull;
-
+import com.canvas.instabook.data.source.BookRepositoryContract;
 import com.canvas.instabook.util.FragmentScoped;
 
 import dagger.Module;
 import dagger.Provides;
+import lombok.NonNull;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/4/17.
  */
 @Module
 public class CoverFlowPresenterModule {
-    @NonNull
-    private final CoverFlowContract.View mView;
 
-    public CoverFlowPresenterModule(@NonNull CoverFlowContract.View mView) {
-        this.mView = mView;
-    }
+    private final CoverFlowContract.View view;
 
-    @Provides
-    @FragmentScoped
-    public CoverFlowContract.Presenter provideCoverFlowPresenter(CoverFlowPresenter presenter) {
-        return presenter;
+    public CoverFlowPresenterModule(@NonNull CoverFlowContract.View view) {
+        this.view = view;
     }
 
     @Provides
     @FragmentScoped
     public CoverFlowContract.View provideCoverFlowView() {
-        return mView;
+        return this.view;
+    }
+
+    @Provides
+    @FragmentScoped
+    public CoverFlowContract.Presenter provideCoverFlowContractPresenter(CoverFlowPresenter presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @FragmentScoped
+    public CoverFlowPresenter provideCoverFlowPresenter(@NonNull BookRepositoryContract bookRepository) {
+        return new CoverFlowPresenter(this.view, bookRepository);
     }
  }

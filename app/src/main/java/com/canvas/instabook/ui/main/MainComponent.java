@@ -10,7 +10,7 @@ import dagger.Component;
  * Created by Krishna Chaitanya Kandula on 7/4/17.
  */
 @FragmentScoped
-@Component(dependencies = AppComponent.class, modules = {MainPresenterModule.class, CoverFlowPresenterModule.class})
+@Component(dependencies = AppComponent.class, modules = MainPresenterModule.class)
 public interface MainComponent {
     void inject(MainActivity target);
 }

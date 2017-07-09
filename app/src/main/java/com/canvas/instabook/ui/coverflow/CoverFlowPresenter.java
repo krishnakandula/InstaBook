@@ -1,13 +1,14 @@
 package com.canvas.instabook.ui.coverflow;
 
-import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.canvas.instabook.app.Constants;
 import com.canvas.instabook.data.models.Book;
 import com.canvas.instabook.data.models.Books;
 import com.canvas.instabook.data.source.BookRepositoryContract;
+import com.canvas.instabook.ui.ViewState;
 
-import javax.inject.Inject;
+import lombok.NonNull;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/2/17.
@@ -15,45 +16,49 @@ import javax.inject.Inject;
 
 public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
-    @NonNull
-    private final BookRepositoryContract bookRepository;
-
-    @NonNull
     private final CoverFlowContract.View view;
 
-    @Inject
-    public CoverFlowPresenter(@NonNull BookRepositoryContract bookRepository, @NonNull CoverFlowContract.View view) {
-        this.bookRepository = bookRepository;
+    private final BookRepositoryContract bookRepository;
+
+    private ViewState viewState;
+
+    private static final String LOG_TAG = CoverFlowPresenter.class.getSimpleName();
+
+    public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepositoryContract bookRepository) {
         this.view = view;
+        this.bookRepository = bookRepository;
+        this.viewState = ViewState.SHOW_LOADING;
     }
 
     @Override
     public void start() {
-        getBookList(0);
-    }
-
-    @Inject
-    @Override
-    public void setupListeners() {
-        view.setPresenter(this);
+        if(viewState == ViewState.SHOW_LOADING) {
+            getData(0, false);
+        } else {
+            view.setData(view.getExistingData());
+        }
     }
 
     @Override
-    public void getBookList(int offset) {
+    public void getData(int offset, boolean refresh) {
+        Log.i(LOG_TAG, "Getting book list");
+        view.showLoading();
         bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, new BookRepositoryContract.LoadBooksCallback() {
             @Override
             public void onBooksLoaded(Books books) {
-                view.showCoverGrid(books.getBooks());
+                view.setData(books.getBooks());
+                view.stopLoading();
+                viewState = ViewState.SHOW_CONTENT;
             }
 
             @Override
             public void onDataNotAvailable() {
                 //Show view error screen
+                viewState = ViewState.SHOW_ERROR;
             }
         });
     }
 
-    @Override
     public void onCoverClickedListener(@NonNull Book book) {
         view.showBookView(book);
     }

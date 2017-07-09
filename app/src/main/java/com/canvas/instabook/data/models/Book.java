@@ -12,6 +12,10 @@ import lombok.NonNull;
 public class Book {
 
     @NonNull
+    @SerializedName("_id")
+    private final String id;
+
+    @NonNull
     @SerializedName("author")
     private final String author;
 

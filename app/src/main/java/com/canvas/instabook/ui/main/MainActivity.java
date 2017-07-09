@@ -1,18 +1,14 @@
 package com.canvas.instabook.ui.main;
 
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.MainApplication;
 import com.canvas.instabook.ui.coverflow.CoverFlowContract;
 import com.canvas.instabook.ui.coverflow.CoverFlowFragment;
-import com.canvas.instabook.ui.coverflow.CoverFlowPresenter;
-import com.canvas.instabook.ui.coverflow.CoverFlowPresenterModule;
 
 import javax.inject.Inject;
 
@@ -25,14 +21,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Inject
     MainContract.Presenter mainPresenter;
 
-    @Inject
-    CoverFlowPresenter coverFlowPresenter;
-
     @BindView(R.id.mainBottomNavView_mainActivity)
     BottomNavigationView mainNavMenu;
 
     private CoverFlowContract.View coverFlowView;
 
+    private static final String COVER_FLOW_FRAGMENT_TAG = "cover_flow_fragment_tag";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -41,11 +35,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setContentView(R.layout.activity_main);
 
         initializeNavFragments();
-
         DaggerMainComponent.builder()
                 .appComponent(((MainApplication) getApplication()).getAppComponent())
                 .mainPresenterModule(new MainPresenterModule(this))
-                .coverFlowPresenterModule(new CoverFlowPresenterModule(coverFlowView))
                 .build()
                 .inject(this);
 
@@ -69,16 +61,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     private void initializeNavFragments() {
-        coverFlowView = CoverFlowFragment.newInstance();
+        coverFlowView = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(COVER_FLOW_FRAGMENT_TAG);
+        if(coverFlowView == null) {
+            coverFlowView = CoverFlowFragment.newInstance();
+        }
     }
 
     @Override
     public void launchCoverFlowView() {
-        if(coverFlowView == null) {
-            coverFlowView = CoverFlowFragment.newInstance();
-        }
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer_mainActivity, (Fragment) coverFlowView)
+                .replace(R.id.fragmentContainer_mainActivity, (Fragment) coverFlowView, COVER_FLOW_FRAGMENT_TAG)
                 .commit();
     }
 
