@@ -5,5 +5,6 @@ package com.canvas.instabook.ui;
  */
 
 public interface BasePresenter<VIEW> {
+    void setView(VIEW view);
     void start();
 }
