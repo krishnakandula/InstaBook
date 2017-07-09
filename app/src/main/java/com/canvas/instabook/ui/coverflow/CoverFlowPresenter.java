@@ -67,6 +67,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @Override
     public void onCoverClicked(int position) {
-        view.showBookView(view.getExistingData().get(position));
+        String bookId = view.getExistingData().get(position).getId();
+        view.showBookView(bookId);
     }
 }

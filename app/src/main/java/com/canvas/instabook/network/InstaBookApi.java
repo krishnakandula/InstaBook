@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 public interface InstaBookApi {
 
     @GET("/books/{id}")
-    Call<Book> getBook(@Path("id") String id);
+    Call<Book> getBook(@Path("id") String bookId);
 
     @GET("/books")
     Call<Books> getBooks(@Query("count") Integer count, @Query("offset") Integer offset);

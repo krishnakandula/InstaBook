@@ -23,9 +23,9 @@ public interface BookRepositoryContract {
         void onDataNotAvailable();
     }
 
-    void getBook(@NonNull LoadBookCallback callback);
+    void getBook(String bookId, LoadBookCallback callback);
 
-    void getBooks(int limit, int offset, @NonNull LoadBooksCallback callback);
+    void getBooks(int limit, int offset, LoadBooksCallback callback);
 
     void refreshBooks();
 }

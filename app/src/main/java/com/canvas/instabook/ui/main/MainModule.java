@@ -11,12 +11,12 @@ import dagger.Provides;
  * Created by Krishna Chaitanya Kandula on 7/4/17.
  */
 @Module
-public class MainPresenterModule {
+public class MainModule {
 
     @NonNull
     private final MainContract.View mView;
 
-    public MainPresenterModule(@NonNull MainContract.View mView) {
+    public MainModule(@NonNull MainContract.View mView) {
         this.mView = mView;
     }
 

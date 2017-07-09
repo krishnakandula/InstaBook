@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.Constants;
 import com.canvas.instabook.data.models.Book;
+import com.canvas.instabook.network.ImageRouteCreator;
 import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
 
@@ -19,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.NonNull;
+
+import static com.canvas.instabook.network.ImageRouteCreator.*;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/5/17.
@@ -99,7 +102,7 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
             }
 
             Picasso.with(context)
-                    .load(String.format("%s/books/cover/%s", Constants.INSTABOOK_API_BASE_URL, book.getId()))
+                    .load(createCoverImageRoute(book.getId()))
                     .placeholder(R.drawable.ic_cloud_download_black_24dp)
                     .resizeDimen(R.dimen.image_width, R.dimen.image_height)
                     .into(bookCoverImageView);
