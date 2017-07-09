@@ -22,7 +22,7 @@ public interface CoverFlowContract {
         void showBookView(@NonNull Book book);
     }
 
-    interface Presenter extends BasePresenter<CoverFlowContract.View> {
+    interface Presenter extends BasePresenter {
         void getData(int offset, boolean refresh);
     }
 }

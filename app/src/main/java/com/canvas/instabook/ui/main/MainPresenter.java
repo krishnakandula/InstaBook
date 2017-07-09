@@ -11,16 +11,11 @@ import javax.inject.Inject;
 public class MainPresenter implements MainContract.Presenter {
 
     @NonNull
-    private final MainContract.View view;
+    private MainContract.View view;
 
     @Inject
     public MainPresenter(@NonNull MainContract.View view) {
         this.view = view;
-    }
-
-    @Override
-    public void setView(MainContract.View view) {
-
     }
 
     public void start() {

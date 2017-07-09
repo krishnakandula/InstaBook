@@ -16,24 +16,18 @@ import lombok.NonNull;
 
 public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
-    @NonNull
-    private CoverFlowContract.View view;
+    private final CoverFlowContract.View view;
+
+    private final BookRepositoryContract bookRepository;
 
     private ViewState viewState;
 
-    @NonNull
-    private final BookRepositoryContract bookRepository;
-
     private static final String LOG_TAG = CoverFlowPresenter.class.getSimpleName();
 
-    public CoverFlowPresenter(@NonNull BookRepositoryContract bookRepository) {
+    public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepositoryContract bookRepository) {
+        this.view = view;
         this.bookRepository = bookRepository;
         this.viewState = ViewState.SHOW_LOADING;
-    }
-
-    @Override
-    public void setView(@NonNull CoverFlowContract.View view) {
-        this.view = view;
     }
 
     @Override

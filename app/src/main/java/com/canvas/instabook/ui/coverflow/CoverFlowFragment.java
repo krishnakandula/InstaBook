@@ -61,7 +61,7 @@ public class CoverFlowFragment extends Fragment
 
         DaggerCoverFlowComponent.builder()
                 .appComponent(((MainApplication) getActivity().getApplication()).getAppComponent())
-                .coverFlowPresenterModule(new CoverFlowPresenterModule())
+                .coverFlowPresenterModule(new CoverFlowPresenterModule(this))
                 .build()
                 .inject(this);
     }
@@ -87,7 +87,6 @@ public class CoverFlowFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        presenter.setView(this);
         presenter.start();
     }
 
