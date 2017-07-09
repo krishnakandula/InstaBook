@@ -3,11 +3,10 @@ package com.canvas.instabook.ui.coverflow;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,7 @@ public class CoverFlowFragment extends Fragment
             coverFlowAdapter = new CoverFlowAdapter(getContext(), this);
         }
         coverRecyclerView.setAdapter(coverFlowAdapter);
-        coverRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        coverRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         refreshLayout.setOnRefreshListener(this::onRefresh);
     }
 
@@ -110,7 +109,7 @@ public class CoverFlowFragment extends Fragment
 
     @Override
     public void showBookView(@NonNull Book book) {
-
+        Toast.makeText(getContext(), book.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -136,13 +135,11 @@ public class CoverFlowFragment extends Fragment
 
     @Override
     public void onClickCoverFlowItem(int position) {
-        Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
         presenter.onCoverClicked(position);
     }
 
     @Override
     public void onReachCoverFlowEnd() {
-        Snackbar.make(getView(), "Loading more", Snackbar.LENGTH_SHORT).show();
         //Update data
         presenter.getData(getExistingData().size(), false);
     }

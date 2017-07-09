@@ -100,6 +100,7 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
 
             Picasso.with(context)
                     .load(String.format("%s/books/cover/%s", Constants.INSTABOOK_API_BASE_URL, book.getId()))
+                    .placeholder(R.drawable.ic_cloud_download_black_24dp)
                     .resizeDimen(R.dimen.image_width, R.dimen.image_height)
                     .into(bookCoverImageView);
             bookTitleTextView.setText(book.getTitle());
