@@ -3,14 +3,15 @@ package com.canvas.instabook.ui.coverflow;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.MainApplication;
@@ -27,7 +28,9 @@ import lombok.NonNull;
 
 @NoArgsConstructor
 public class CoverFlowFragment extends Fragment
-        implements CoverFlowContract.View, SwipeRefreshLayout.OnRefreshListener {
+        implements CoverFlowContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
+        CoverFlowAdapter.CoverFlowItemViewInteractionListener {
 
     @Inject CoverFlowContract.Presenter presenter;
 
@@ -77,7 +80,7 @@ public class CoverFlowFragment extends Fragment
         ButterKnife.bind(this, view);
 
         if(coverFlowAdapter == null) {
-            coverFlowAdapter = new CoverFlowAdapter(getContext());
+            coverFlowAdapter = new CoverFlowAdapter(getContext(), this);
         }
         coverRecyclerView.setAdapter(coverFlowAdapter);
         coverRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
@@ -102,7 +105,7 @@ public class CoverFlowFragment extends Fragment
 
     @Override
     public void updateData(@NonNull List<Book> additionalBooks) {
-
+        coverFlowAdapter.addData(additionalBooks);
     }
 
     @Override
@@ -129,6 +132,19 @@ public class CoverFlowFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClickCoverFlowItem(int position) {
+        Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+        presenter.onCoverClicked(position);
+    }
+
+    @Override
+    public void onReachCoverFlowEnd() {
+        Snackbar.make(getView(), "Loading more", Snackbar.LENGTH_SHORT).show();
+        //Update data
+        presenter.getData(getExistingData().size(), false);
     }
 
     public interface OnCoverFlowFragmentInteractionListener {
