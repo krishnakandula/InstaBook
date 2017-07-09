@@ -24,5 +24,6 @@ public interface CoverFlowContract {
 
     interface Presenter extends BasePresenter {
         void getData(int offset, boolean refresh);
+        void onCoverClicked(int position);
     }
 }

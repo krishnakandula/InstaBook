@@ -33,7 +33,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
     @Override
     public void start() {
         if(viewState == ViewState.SHOW_LOADING) {
-            getData(0, false);
+            getData(0, true);
         } else {
             view.setData(view.getExistingData());
         }
@@ -41,12 +41,18 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @Override
     public void getData(int offset, boolean refresh) {
-        Log.i(LOG_TAG, "Getting book list");
-        view.showLoading();
+        this.view.showLoading();
+        this.viewState = ViewState.SHOW_LOADING;
+
         bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, new BookRepositoryContract.LoadBooksCallback() {
             @Override
             public void onBooksLoaded(Books books) {
-                view.setData(books.getBooks());
+                if(refresh) {
+                    view.setData(books.getBooks());
+                } else {
+                    view.updateData(books.getBooks());
+                }
+
                 view.stopLoading();
                 viewState = ViewState.SHOW_CONTENT;
             }
@@ -59,7 +65,8 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
         });
     }
 
-    public void onCoverClickedListener(@NonNull Book book) {
-        view.showBookView(book);
+    @Override
+    public void onCoverClicked(int position) {
+        view.showBookView(view.getExistingData().get(position));
     }
 }

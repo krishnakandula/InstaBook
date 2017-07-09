@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.MainApplication;
@@ -27,7 +27,9 @@ import lombok.NonNull;
 
 @NoArgsConstructor
 public class CoverFlowFragment extends Fragment
-        implements CoverFlowContract.View, SwipeRefreshLayout.OnRefreshListener {
+        implements CoverFlowContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
+        CoverFlowAdapter.CoverFlowItemViewInteractionListener {
 
     @Inject CoverFlowContract.Presenter presenter;
 
@@ -77,10 +79,10 @@ public class CoverFlowFragment extends Fragment
         ButterKnife.bind(this, view);
 
         if(coverFlowAdapter == null) {
-            coverFlowAdapter = new CoverFlowAdapter(getContext());
+            coverFlowAdapter = new CoverFlowAdapter(getContext(), this);
         }
         coverRecyclerView.setAdapter(coverFlowAdapter);
-        coverRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        coverRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         refreshLayout.setOnRefreshListener(this::onRefresh);
     }
 
@@ -102,12 +104,12 @@ public class CoverFlowFragment extends Fragment
 
     @Override
     public void updateData(@NonNull List<Book> additionalBooks) {
-
+        coverFlowAdapter.addData(additionalBooks);
     }
 
     @Override
     public void showBookView(@NonNull Book book) {
-
+        Toast.makeText(getContext(), book.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -129,6 +131,17 @@ public class CoverFlowFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClickCoverFlowItem(int position) {
+        presenter.onCoverClicked(position);
+    }
+
+    @Override
+    public void onReachCoverFlowEnd() {
+        //Update data
+        presenter.getData(getExistingData().size(), false);
     }
 
     public interface OnCoverFlowFragmentInteractionListener {

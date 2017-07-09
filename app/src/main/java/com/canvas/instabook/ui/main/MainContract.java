@@ -13,7 +13,7 @@ public interface MainContract {
         void launchFavoritesView();
     }
 
-    interface Presenter extends BasePresenter<MainContract.View> {
+    interface Presenter extends BasePresenter{
         void onCoverFlowNavItemClicked();
         void onRandomBookNavItemClicked();
         void onFavoritesNavItemClicked();
