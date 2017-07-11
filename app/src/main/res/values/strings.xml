@@ -5,4 +5,7 @@
     <string name="menu_item_cover_flow">Cover Flow</string>
     <string name="menu_item_random_book">Random Book</string>
     <string name="menu_item_favorites">Favorites</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

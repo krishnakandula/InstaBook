@@ -1,9 +1,11 @@
 package com.canvas.instabook.ui.coverflow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.MainApplication;
 import com.canvas.instabook.data.models.Book;
+import com.canvas.instabook.ui.information.BookInformationActivity;
+import com.canvas.instabook.ui.information.BookInformationFragment;
 
 import java.util.List;
 
@@ -63,7 +67,7 @@ public class CoverFlowFragment extends Fragment
 
         DaggerCoverFlowComponent.builder()
                 .appComponent(((MainApplication) getActivity().getApplication()).getAppComponent())
-                .coverFlowPresenterModule(new CoverFlowPresenterModule(this))
+                .coverFlowModule(new CoverFlowModule(this))
                 .build()
                 .inject(this);
     }
@@ -108,8 +112,10 @@ public class CoverFlowFragment extends Fragment
     }
 
     @Override
-    public void showBookView(@NonNull Book book) {
-        Toast.makeText(getContext(), book.getTitle(), Toast.LENGTH_SHORT).show();
+    public void showBookView(@NonNull String bookId) {
+        Intent bookInformationIntent = new Intent(getActivity(), BookInformationActivity.class);
+        bookInformationIntent.putExtra(BookInformationActivity.BOOK_ID_TAG, bookId);
+        startActivity(bookInformationIntent);
     }
 
     @Override
@@ -142,6 +148,11 @@ public class CoverFlowFragment extends Fragment
     public void onReachCoverFlowEnd() {
         //Update data
         presenter.getData(getExistingData().size(), false);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public interface OnCoverFlowFragmentInteractionListener {

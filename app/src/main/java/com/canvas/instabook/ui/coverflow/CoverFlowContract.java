@@ -2,7 +2,6 @@ package com.canvas.instabook.ui.coverflow;
 
 
 import com.canvas.instabook.data.models.Book;
-import com.canvas.instabook.ui.BasePresenter;
 
 import java.util.List;
 
@@ -19,10 +18,12 @@ public interface CoverFlowContract {
         void setData(@NonNull List<Book> books);
         List<Book> getExistingData();
         void updateData(@NonNull List<Book> additionalBooks);
-        void showBookView(@NonNull Book book);
+        void showBookView(@NonNull String bookId);
+        void showError(String message);
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter {
+        void start();
         void getData(int offset, boolean refresh);
         void onCoverClicked(int position);
     }

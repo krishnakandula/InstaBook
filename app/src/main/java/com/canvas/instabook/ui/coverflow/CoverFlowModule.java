@@ -11,11 +11,11 @@ import lombok.NonNull;
  * Created by Krishna Chaitanya Kandula on 7/4/17.
  */
 @Module
-public class CoverFlowPresenterModule {
+public class CoverFlowModule {
 
     private final CoverFlowContract.View view;
 
-    public CoverFlowPresenterModule(@NonNull CoverFlowContract.View view) {
+    public CoverFlowModule(@NonNull CoverFlowContract.View view) {
         this.view = view;
     }
 

@@ -44,7 +44,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
         this.view.showLoading();
         this.viewState = ViewState.SHOW_LOADING;
 
-        bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, new BookRepositoryContract.LoadBooksCallback() {
+        bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, refresh, new BookRepositoryContract.LoadBooksCallback() {
             @Override
             public void onBooksLoaded(Books books) {
                 if(refresh) {
@@ -67,6 +67,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @Override
     public void onCoverClicked(int position) {
-        view.showBookView(view.getExistingData().get(position));
+        String bookId = view.getExistingData().get(position).getId();
+        view.showBookView(bookId);
     }
 }

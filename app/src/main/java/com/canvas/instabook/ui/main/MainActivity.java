@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         initializeNavFragments();
         DaggerMainComponent.builder()
                 .appComponent(((MainApplication) getApplication()).getAppComponent())
-                .mainPresenterModule(new MainPresenterModule(this))
+                .mainModule(new MainModule(this))
                 .build()
                 .inject(this);
 

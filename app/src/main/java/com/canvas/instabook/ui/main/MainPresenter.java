@@ -18,6 +18,7 @@ public class MainPresenter implements MainContract.Presenter {
         this.view = view;
     }
 
+    @Override
     public void start() {
         view.launchCoverFlowView();
     }
