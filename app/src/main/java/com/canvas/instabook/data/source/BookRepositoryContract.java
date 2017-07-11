@@ -25,7 +25,5 @@ public interface BookRepositoryContract {
 
     void getBook(String bookId, LoadBookCallback callback);
 
-    void getBooks(int limit, int offset, LoadBooksCallback callback);
-
-    void refreshBooks();
+    void getBooks(int limit, int offset, boolean refresh, LoadBooksCallback callback);
 }

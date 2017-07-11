@@ -79,9 +79,6 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
 
     public class CoverFlowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        @BindView(R.id.bookTitleTextView_coverFlowViewHolder)
-        TextView bookTitleTextView;
-
         @BindView(R.id.bookCoverImageView_coverFlowViewHolder)
         ImageView bookCoverImageView;
 
@@ -101,12 +98,15 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
                 itemViewTouchListener.onReachCoverFlowEnd();
             }
 
-            Picasso.with(context)
-                    .load(createCoverImageRoute(book.getId()))
-                    .placeholder(R.drawable.ic_cloud_download_black_24dp)
-                    .resizeDimen(R.dimen.image_width, R.dimen.image_height)
-                    .into(bookCoverImageView);
-            bookTitleTextView.setText(book.getTitle());
+            bookCoverImageView.post(() -> {
+                Picasso.with(context)
+                        .load(createCoverImageRoute(book.getId()))
+                        .placeholder(R.drawable.ic_cloud_download_black_24dp)
+                        .resize(bookCoverImageView.getMeasuredWidth(), bookCoverImageView.getMeasuredHeight())
+                        .centerCrop()
+                        .into(bookCoverImageView);
+            });
+
         }
 
         @Override

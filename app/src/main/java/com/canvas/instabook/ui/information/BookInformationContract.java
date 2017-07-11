@@ -12,8 +12,6 @@ public interface BookInformationContract {
     interface View {
         void showBookInformation(@NonNull Book book);
         void showSamplePage();
-        void showLoading();
-        void stopLoading();
         void showError(String message);
     }
 

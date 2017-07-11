@@ -3,6 +3,7 @@ package com.canvas.instabook.ui.information;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.canvas.instabook.R;
 
@@ -15,11 +16,22 @@ public class BookInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_information);
 
-        String bookid = getIntent().getStringExtra(BOOK_ID_TAG);
-        BookInformationFragment bookInformationFragment = BookInformationFragment.newInstance(bookid);
+        String bookId = getIntent().getStringExtra(BOOK_ID_TAG);
+        BookInformationFragment bookInformationFragment = BookInformationFragment.newInstance(bookId);
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()
-                .add(R.id.fragmentContainer_bookInformationActivity, bookInformationFragment)
+                .replace(R.id.fragmentContainer_bookInformationActivity, bookInformationFragment)
                 .commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return false;
+        }
     }
 }
