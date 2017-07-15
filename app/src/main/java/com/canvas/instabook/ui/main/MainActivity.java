@@ -9,6 +9,7 @@ import com.canvas.instabook.R;
 import com.canvas.instabook.app.MainApplication;
 import com.canvas.instabook.ui.coverflow.CoverFlowContract;
 import com.canvas.instabook.ui.coverflow.CoverFlowFragment;
+import com.canvas.instabook.ui.random.RandomMainFragment;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     BottomNavigationView mainNavMenu;
 
     private CoverFlowContract.View coverFlowView;
+    private RandomMainFragment randomMainFragment;
 
     private static final String COVER_FLOW_FRAGMENT_TAG = "cover_flow_fragment_tag";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -42,11 +44,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 .inject(this);
 
         ButterKnife.bind(this);
+        setupBottomNavBar();
+    }
 
+    private void setupBottomNavBar() {
         mainNavMenu.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.menu_item_activity_main_cover_flow:
                     mainPresenter.onCoverFlowNavItemClicked();
+                    return true;
+                case R.id.menu_item_activity_main_random_book:
+                    mainPresenter.onRandomBookNavItemClicked();
                     return true;
                 default:
                     return false;
@@ -62,8 +70,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private void initializeNavFragments() {
         coverFlowView = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(COVER_FLOW_FRAGMENT_TAG);
+        randomMainFragment = (RandomMainFragment) getSupportFragmentManager().findFragmentByTag(RandomMainFragment.LOG_TAG);
+
         if(coverFlowView == null) {
             coverFlowView = CoverFlowFragment.newInstance();
+        }
+
+        if(randomMainFragment == null) {
+            randomMainFragment = RandomMainFragment.newInstance();
         }
     }
 
@@ -76,7 +90,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void launchBookView() {
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer_mainActivity, randomMainFragment, RandomMainFragment.LOG_TAG)
+                .commit();
     }
 
     @Override

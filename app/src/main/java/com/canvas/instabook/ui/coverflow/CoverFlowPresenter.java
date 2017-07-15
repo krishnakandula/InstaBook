@@ -71,7 +71,6 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
     }
 
     enum ViewState {
-        START,
         SHOW_LOADING,
         SHOW_CONTENT,
         SHOW_ERROR

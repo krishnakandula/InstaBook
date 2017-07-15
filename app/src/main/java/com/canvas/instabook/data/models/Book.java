@@ -1,5 +1,8 @@
 package com.canvas.instabook.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import lombok.Data;
@@ -9,7 +12,15 @@ import lombok.NonNull;
  * Created by Krishna Chaitanya Kandula on 6/25/17.
  */
 @Data
-public class Book {
+public class Book implements Parcelable {
+
+    //Needed for parceling
+    protected Book(Parcel in) {
+        id = in.readString();
+        author = in.readString();
+        title = in.readString();
+        page = in.readString();
+    }
 
     @NonNull
     @SerializedName("_id")
@@ -26,4 +37,30 @@ public class Book {
     @NonNull
     @SerializedName("page")
     private final String page;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(author);
+        dest.writeString(title);
+        dest.writeString(page);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 }

@@ -40,8 +40,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import static com.canvas.instabook.network.ImageRouteCreator.*;
-//TODO: Fix presenter implementation
-//TODO: Add View state so sample page view doesn't get lost when device rotated
+
 /**
  * Created by Krishna Chaitanya Kandula on 7/8/17.
  */
