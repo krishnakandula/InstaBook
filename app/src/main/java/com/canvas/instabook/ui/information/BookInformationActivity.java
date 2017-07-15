@@ -1,5 +1,6 @@
 package com.canvas.instabook.ui.information;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,10 @@ import com.canvas.instabook.R;
 
 public class BookInformationActivity extends AppCompatActivity {
 
+    private BookInformationContract.View bookInformationView;
+
+    private String bookId;
+
     public static final String BOOK_ID_TAG = "book_id_tag";
 
     @Override
@@ -16,12 +21,21 @@ public class BookInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_information);
 
-        String bookId = getIntent().getStringExtra(BOOK_ID_TAG);
-        BookInformationFragment bookInformationFragment = BookInformationFragment.newInstance(bookId);
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.fragmentContainer_bookInformationActivity, bookInformationFragment)
+        this.bookId = getIntent().getStringExtra(BOOK_ID_TAG);
+        initializeFragments();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer_bookInformationActivity,
+                        (Fragment) bookInformationView,
+                        BookInformationFragment.LOG_TAG)
                 .commit();
+    }
+
+    private void initializeFragments() {
+        bookInformationView = (BookInformationFragment) getSupportFragmentManager()
+                .findFragmentByTag(BookInformationFragment.LOG_TAG);
+        if(bookInformationView == null) {
+            bookInformationView = BookInformationFragment.newInstance(bookId);
+        }
     }
 
     @Override

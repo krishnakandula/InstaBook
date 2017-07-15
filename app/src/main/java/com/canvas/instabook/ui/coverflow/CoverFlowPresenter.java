@@ -3,10 +3,8 @@ package com.canvas.instabook.ui.coverflow;
 import android.util.Log;
 
 import com.canvas.instabook.app.Constants;
-import com.canvas.instabook.data.models.Book;
 import com.canvas.instabook.data.models.Books;
 import com.canvas.instabook.data.source.BookRepositoryContract;
-import com.canvas.instabook.ui.ViewState;
 
 import lombok.NonNull;
 
@@ -32,6 +30,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @Override
     public void start() {
+        //TODO: Use switch statement and show error
         if(viewState == ViewState.SHOW_LOADING) {
             getData(0, true);
         } else {
@@ -69,5 +68,12 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
     public void onCoverClicked(int position) {
         String bookId = view.getExistingData().get(position).getId();
         view.showBookView(bookId);
+    }
+
+    enum ViewState {
+        START,
+        SHOW_LOADING,
+        SHOW_CONTENT,
+        SHOW_ERROR
     }
 }

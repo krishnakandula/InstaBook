@@ -96,6 +96,7 @@
                     android:minHeight="300dp">
 
                     <TextView
+                        android:id="@+id/infoTextView_bookInformationFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -119,6 +120,7 @@
                     android:minHeight="300dp">
 
                     <TextView
+                        android:id="@+id/summaryTextView_bookInformationFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"

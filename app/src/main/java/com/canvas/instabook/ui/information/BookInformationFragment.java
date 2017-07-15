@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -39,7 +40,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import static com.canvas.instabook.network.ImageRouteCreator.*;
-
+//TODO: Fix presenter implementation
+//TODO: Add View state so sample page view doesn't get lost when device rotated
 /**
  * Created by Krishna Chaitanya Kandula on 7/8/17.
  */
@@ -52,6 +54,8 @@ public class BookInformationFragment extends Fragment implements BookInformation
     @BindView(R.id.toolbar_bookInformationFragment) Toolbar toolbar;
     @BindView(R.id.titleTextView_bookInformationFragment) TextView tileTextView;
     @BindView(R.id.authorTextView_bookInformationFragment) TextView authorTextView;
+    @BindView(R.id.summaryTextView_bookInformationFragment) TextView summaryTextView;
+    @BindView(R.id.infoTextView_bookInformationFragment) TextView infoTextView;
     @BindView(R.id.fab_bookInformationFragment) FloatingActionButton fab;
     @BindView(R.id.bookCoverImageView_bookInformationFragment) CircleImageView coverImageView;
     @BindView(R.id.titleContainerLayout_bookInformationFragment) LinearLayout titleContainerLayout;
@@ -63,6 +67,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
     private SlideUp samplePageSlideUp;
     private int mMaxScrollRange;
     private boolean mCoverImageIsShown = true;
+    private Book mBook;
 
     public static final String BOOK_ID_KEY = "book_id_key";
     public static final String LOG_TAG = BookInformationFragment.class.getSimpleName();
@@ -79,6 +84,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
 
         String bookId = getArguments().getString(BOOK_ID_KEY);
         DaggerBookInformationComponent.builder()
@@ -150,29 +156,22 @@ public class BookInformationFragment extends Fragment implements BookInformation
 
     private void setupSampleButton() {
         sampleButton.setText("Read Sample");
-        sampleButton.setOnClickListener(v -> {
-            if(!samplePageSlideUp.isVisible()) {
-                fab.hide();
-                samplePageSlideUp.show();
-                sampleButton.setText("Done");
-            } else {
-                samplePageSlideUp.hide();
-                fab.show();
-                sampleButton.setText("Read Sample");
-            }
-        });
+        sampleButton.setOnClickListener(v -> presenter.onViewSamplePage(samplePageSlideUp.isVisible()));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.getBook();
+        presenter.start();
     }
 
     @Override
     public void showBookInformation(@NonNull Book book) {
+        this.mBook = book;
         tileTextView.setText(book.getTitle());
         authorTextView.setText(book.getAuthor());
+        infoTextView.setText("sdfhskjdhfkjshdf");
+        summaryTextView.setText("sdlfksl;dkfjsdf");
         sampleTextView.setText(book.getPage());
 
         coverImageView.post(() -> {
@@ -191,13 +190,32 @@ public class BookInformationFragment extends Fragment implements BookInformation
     }
 
     @Override
-    public void showSamplePage() {
-
+    public void showSamplePage(boolean immediate) {
+        fab.hide();
+        //This is needed because show() doesn't work when rotation changes but showImmediately() does
+        if(immediate) {
+            samplePageSlideUp.showImmediately();
+        } else {
+            samplePageSlideUp.show();
+        }
+        sampleButton.setText("Done");
     }
 
     @Override
-    public void showError(String message) {
+    public void hideSamplePage() {
+        samplePageSlideUp.hide();
+        fab.show();
+        sampleButton.setText("Read Sample");
+    }
 
+    @Override
+    public Book getExistingData() {
+        return mBook;
+    }
+
+    @Override
+    public void showError(@NonNull String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     private final Callback setThemeColorCallback = new Callback() {
