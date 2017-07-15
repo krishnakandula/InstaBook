@@ -46,10 +46,12 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
         bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, refresh, new BookRepositoryContract.LoadBooksCallback() {
             @Override
             public void onBooksLoaded(Books books) {
-                if(refresh) {
-                    view.setData(books.getBooks());
-                } else {
-                    view.updateData(books.getBooks());
+                if(!books.getBooks().isEmpty()) {
+                    if (refresh) {
+                        view.setData(books.getBooks());
+                    } else {
+                        view.updateData(books.getBooks());
+                    }
                 }
 
                 view.stopLoading();

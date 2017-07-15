@@ -97,7 +97,7 @@ public class CoverFlowFragment extends Fragment
     }
 
     @Override
-    public void setData(List<Book> data) {
+    public void setData(@NonNull List<Book> data) {
         coverFlowAdapter.setData(data);
     }
 
