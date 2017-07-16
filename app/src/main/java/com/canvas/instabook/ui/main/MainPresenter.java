@@ -2,6 +2,8 @@ package com.canvas.instabook.ui.main;
 
 import android.support.annotation.NonNull;
 
+import com.canvas.instabook.ui.main.MainContract.ViewState;
+
 import javax.inject.Inject;
 
 /**
@@ -20,8 +22,11 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void start() {
-        switch (state) {
+    public void start(ViewState previousState) {
+        if(previousState != null) {
+            this.state = previousState;
+        }
+        switch (this.state) {
             case SHOW_COVERFLOW:
                 onCoverFlowNavItemClicked();
                 break;
@@ -52,9 +57,8 @@ public class MainPresenter implements MainContract.Presenter {
         view.launchFavoritesView();
     }
 
-    enum ViewState {
-        SHOW_COVERFLOW,
-        SHOW_RANDOM_BOOK,
-        SHOW_FAVORITES
+    @Override
+    public ViewState getState() {
+        return this.state;
     }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import com.canvas.instabook.R;
 import com.canvas.instabook.app.MainApplication;
-import com.canvas.instabook.ui.coverflow.CoverFlowContract;
 import com.canvas.instabook.ui.coverflow.CoverFlowFragment;
 import com.canvas.instabook.ui.random.RandomMainFragment;
 
@@ -25,10 +24,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.mainBottomNavView_mainActivity)
     BottomNavigationView mainNavMenu;
 
-    private CoverFlowContract.View coverFlowView;
+    private CoverFlowFragment coverFlowFragment;
     private RandomMainFragment randomMainFragment;
+    private MainContract.ViewState savedViewState;
 
     private static final String COVER_FLOW_FRAGMENT_TAG = "cover_flow_fragment_tag";
+    private static final String VIEW_STATE_TAG = "view_state_tag";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         ButterKnife.bind(this);
         setupBottomNavBar();
+        if(savedInstanceState != null) {
+            this.savedViewState = (MainContract.ViewState) savedInstanceState.getSerializable(this.VIEW_STATE_TAG);
+        }
     }
 
     private void setupBottomNavBar() {
@@ -65,32 +69,35 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onResume() {
         super.onResume();
-        mainPresenter.start();
+        mainPresenter.start(this.savedViewState);
     }
 
     private void initializeNavFragments() {
-        coverFlowView = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(COVER_FLOW_FRAGMENT_TAG);
+        coverFlowFragment = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(COVER_FLOW_FRAGMENT_TAG);
         randomMainFragment = (RandomMainFragment) getSupportFragmentManager().findFragmentByTag(RandomMainFragment.LOG_TAG);
 
-        if(coverFlowView == null) {
-            coverFlowView = CoverFlowFragment.newInstance();
+        if(coverFlowFragment == null) {
+            coverFlowFragment = CoverFlowFragment.newInstance();
         }
 
         if(randomMainFragment == null) {
             randomMainFragment = RandomMainFragment.newInstance();
         }
+
     }
 
     @Override
     public void launchCoverFlowView() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer_mainActivity, (Fragment) coverFlowView, COVER_FLOW_FRAGMENT_TAG)
+                .addToBackStack(null)
+                .replace(R.id.fragmentContainer_mainActivity, coverFlowFragment, COVER_FLOW_FRAGMENT_TAG)
                 .commit();
     }
 
     @Override
     public void launchBookView() {
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.fragmentContainer_mainActivity, randomMainFragment, RandomMainFragment.LOG_TAG)
                 .commit();
     }
@@ -98,5 +105,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void launchFavoritesView() {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(this.VIEW_STATE_TAG, this.mainPresenter.getState());
+        super.onSaveInstanceState(outState);
     }
 }

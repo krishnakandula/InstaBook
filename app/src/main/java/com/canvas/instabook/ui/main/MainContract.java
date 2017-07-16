@@ -13,9 +13,16 @@ public interface MainContract {
     }
 
     interface Presenter {
-        void start();
+        void start(ViewState previousState);
         void onCoverFlowNavItemClicked();
         void onRandomBookNavItemClicked();
         void onFavoritesNavItemClicked();
+        ViewState getState();
+    }
+
+    enum ViewState {
+        SHOW_COVERFLOW,
+        SHOW_RANDOM_BOOK,
+        SHOW_FAVORITES
     }
 }

@@ -204,7 +204,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
     public void hideSamplePage() {
         samplePageSlideUp.hide();
         fab.show();
-        sampleButton.setText("Read Sample");
+        sampleButton.setText("Read A Sample");
     }
 
     @Override
@@ -240,7 +240,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
             Bitmap bitmap = ((BitmapDrawable) coverImageView.getDrawable()).getBitmap();
             int defaultColor = getResources().getColor(R.color.colorAccent);
             Palette.from(bitmap).generate(palette -> {
-                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getDominantColor(defaultColor)));
+                fab.setBackgroundTintList(ColorStateList.valueOf(palette.getVibrantColor(defaultColor)));
             });
         }
 

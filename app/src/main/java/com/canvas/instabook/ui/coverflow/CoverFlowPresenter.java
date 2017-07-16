@@ -25,16 +25,25 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
     public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepositoryContract bookRepository) {
         this.view = view;
         this.bookRepository = bookRepository;
-        this.viewState = ViewState.SHOW_LOADING;
+        this.viewState = ViewState.START;
     }
 
     @Override
     public void start() {
-        //TODO: Use switch statement and show error
-        if(viewState == ViewState.SHOW_LOADING) {
-            getData(0, true);
-        } else {
-            view.setData(view.getExistingData());
+        switch (viewState) {
+            case START:
+                getData(0, true);
+                break;
+            case SHOW_LOADING:
+                view.showLoading();
+                break;
+            case SHOW_CONTENT:
+                view.setData(view.getExistingData());
+                break;
+            case SHOW_ERROR:
+                //TODO: Change to string resource
+                view.showError("Unable to retrieve data");
+                break;
         }
     }
 
@@ -73,6 +82,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
     }
 
     enum ViewState {
+        START,
         SHOW_LOADING,
         SHOW_CONTENT,
         SHOW_ERROR
