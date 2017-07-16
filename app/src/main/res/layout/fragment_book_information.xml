@@ -96,6 +96,7 @@
                     android:minHeight="300dp">
 
                     <TextView
+                        android:id="@+id/infoTextView_bookInformationFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -119,6 +120,7 @@
                     android:minHeight="300dp">
 
                     <TextView
+                        android:id="@+id/summaryTextView_bookInformationFragment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
@@ -181,7 +183,7 @@
         android:id="@+id/readSampleButton_bookInformationFragment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_button_height"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorAccent"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

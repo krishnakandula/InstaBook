@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.canvas.instabook.ui.information.BookInformationActivity">
+    tools:context="com.rastor.instabook.ui.information.BookInformationActivity">
 
     <FrameLayout
         android:id="@+id/fragmentContainer_bookInformationActivity"
