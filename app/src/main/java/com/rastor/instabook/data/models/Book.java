@@ -20,6 +20,7 @@ public class Book implements Parcelable {
         author = in.readString();
         title = in.readString();
         page = in.readString();
+        information = in.readString();
     }
 
     @NonNull
@@ -38,6 +39,10 @@ public class Book implements Parcelable {
     @SerializedName("page")
     private final String page;
 
+    @NonNull
+    @SerializedName("information")
+    private final String information;
+
     @Override
     public int describeContents() {
         return 0;
@@ -49,6 +54,7 @@ public class Book implements Parcelable {
         dest.writeString(author);
         dest.writeString(title);
         dest.writeString(page);
+        dest.writeString(information);
     }
 
     @SuppressWarnings("unused")
