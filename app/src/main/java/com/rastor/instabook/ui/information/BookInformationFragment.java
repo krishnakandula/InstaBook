@@ -52,7 +52,6 @@ public class BookInformationFragment extends Fragment implements BookInformation
     @BindView(R.id.toolbar_bookInformationFragment) Toolbar toolbar;
     @BindView(R.id.titleTextView_bookInformationFragment) TextView tileTextView;
     @BindView(R.id.authorTextView_bookInformationFragment) TextView authorTextView;
-    @BindView(R.id.summaryTextView_bookInformationFragment) TextView summaryTextView;
     @BindView(R.id.infoTextView_bookInformationFragment) TextView infoTextView;
     @BindView(R.id.fab_bookInformationFragment) FloatingActionButton fab;
     @BindView(R.id.bookCoverImageView_bookInformationFragment) CircleImageView coverImageView;
@@ -111,7 +110,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        final int animationDuration = 200;
+        final int animationDuration = 150;
         final int COVER_IMAGE_ANIMATION_PERCENTAGE = 20;
 
         if (mMaxScrollRange == 0)
@@ -168,8 +167,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
         this.mBook = book;
         tileTextView.setText(book.getTitle());
         authorTextView.setText(book.getAuthor());
-        infoTextView.setText("sdfhskjdhfkjshdf");
-        summaryTextView.setText("sdlfksl;dkfjsdf");
+        infoTextView.setText(book.getInformation());
         sampleTextView.setText(book.getPage());
 
         coverImageView.post(() -> {
