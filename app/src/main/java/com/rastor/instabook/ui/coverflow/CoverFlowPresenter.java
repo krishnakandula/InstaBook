@@ -39,8 +39,8 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
                 view.setData(view.getExistingData());
                 break;
             case SHOW_ERROR:
-                //TODO: Change to string resource
-                view.showError("Unable to retrieve data");
+                view.stopLoading();
+                view.showErrorMessage();
                 break;
         }
     }
@@ -67,7 +67,8 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
             @Override
             public void onDataNotAvailable() {
-                //Show view error screen
+                view.stopLoading();
+                view.showErrorMessage();
                 viewState = ViewState.SHOW_ERROR;
             }
         });

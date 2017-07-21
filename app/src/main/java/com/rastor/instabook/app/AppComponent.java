@@ -10,7 +10,7 @@ import dagger.Component;
  * Created by Krishna Chaitanya Kandula on 6/4/17.
  */
 @ApplicationScoped
-@Component(modules = {AppModule.class, BooksRepositoryModule.class})
+@Component(modules = BooksRepositoryModule.class)
 public interface AppComponent {
     BookRepositoryContract getBookRepository();
 }

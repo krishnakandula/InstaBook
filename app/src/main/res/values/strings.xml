@@ -11,4 +11,7 @@
 
     <!-- fragment_random_page -->
     <string name="view_book_information">What book is this?</string>
+
+    <!-- Default messages -->
+    <string name="default_loading_error_message">Unable to load data</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.rastor.instabook.ui.coverflow;
 
 
+import android.content.Context;
+
 import com.rastor.instabook.data.models.Book;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public interface CoverFlowContract {
         List<Book> getExistingData();
         void updateData(@NonNull List<Book> additionalBooks);
         void showBookView(@NonNull String bookId);
-        void showError(String message);
+        void showErrorMessage();
     }
 
     interface Presenter {

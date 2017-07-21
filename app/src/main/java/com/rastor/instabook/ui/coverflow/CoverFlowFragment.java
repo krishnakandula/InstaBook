@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -149,8 +150,9 @@ public class CoverFlowFragment extends Fragment
     }
 
     @Override
-    public void showError(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    public void showErrorMessage() {
+        Toast.makeText(getContext(), getString(R.string.default_loading_error_message), Toast.LENGTH_LONG)
+                .show();
     }
 
     public interface OnCoverFlowFragmentInteractionListener {
