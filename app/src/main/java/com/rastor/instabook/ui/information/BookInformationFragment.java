@@ -222,6 +222,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
             Palette.from(bitmap).generate(palette -> {
                 toolbar.setBackgroundColor(palette.getMutedColor(defaultColor));
                 titleContainerLayout.setBackgroundColor(palette.getMutedColor(defaultColor));
+                getActivity().getWindow().setStatusBarColor(palette.getMutedColor(defaultColor));
             });
         }
 

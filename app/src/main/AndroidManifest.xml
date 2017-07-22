@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name="com.rastor.instabook.ui.information.BookInformationActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

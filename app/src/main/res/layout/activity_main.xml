@@ -27,12 +27,13 @@
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
+        android:background="@color/cardview_light_background"
+        android:elevation="@dimen/cardview_default_elevation"
+        app:itemIconTint="@color/darkGrey"
+        app:itemTextColor="@color/darkGrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/activity_main"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white">
-    </android.support.design.widget.BottomNavigationView>
+        app:menu="@menu/activity_main"></android.support.design.widget.BottomNavigationView>
 
 </android.support.constraint.ConstraintLayout>
