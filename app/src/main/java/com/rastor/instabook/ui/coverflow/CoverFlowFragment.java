@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +86,7 @@ public class CoverFlowFragment extends Fragment
             coverFlowAdapter = new CoverFlowAdapter(getContext(), this);
         }
         coverRecyclerView.setAdapter(coverFlowAdapter);
-        coverRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        coverRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         refreshLayout.setOnRefreshListener(this::onRefresh);
     }
 

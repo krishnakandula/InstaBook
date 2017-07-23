@@ -152,7 +152,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
     }
 
     private void setupSampleButton() {
-        sampleButton.setText("Read Sample");
+        sampleButton.setText(getText(R.string.view_sample_text));
         sampleButton.setOnClickListener(v -> presenter.onViewSamplePage(samplePageSlideUp.isVisible()));
     }
 
@@ -194,14 +194,14 @@ public class BookInformationFragment extends Fragment implements BookInformation
         } else {
             samplePageSlideUp.show();
         }
-        sampleButton.setText("Done");
+        sampleButton.setText(getText(R.string.view_information_text));
     }
 
     @Override
     public void hideSamplePage() {
         samplePageSlideUp.hide();
         fab.show();
-        sampleButton.setText("Read A Sample");
+        sampleButton.setText(getText(R.string.view_sample_text));
     }
 
     @Override

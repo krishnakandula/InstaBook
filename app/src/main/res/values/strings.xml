@@ -6,12 +6,13 @@
     <string name="menu_item_random_book">Random Book</string>
     <string name="menu_item_favorites">Favorites</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- fragment_random_page -->
     <string name="view_book_information">What book is this?</string>
 
     <!-- Default messages -->
     <string name="default_loading_error_message">Unable to load data</string>
+
+    <!-- BookInformation -->
+    <string name="view_sample_text">Read A Sample</string>
+    <string name="view_information_text">Done</string>
 </resources>
