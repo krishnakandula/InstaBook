@@ -12,6 +12,9 @@
     <!-- Default messages -->
     <string name="default_loading_error_message">Unable to load data</string>
 
+    <!-- CoverFlow -->
+    <string name="see_more_info">See More Information</string>
+
     <!-- BookInformation -->
     <string name="view_sample_text">Read A Sample</string>
     <string name="view_information_text">Done</string>

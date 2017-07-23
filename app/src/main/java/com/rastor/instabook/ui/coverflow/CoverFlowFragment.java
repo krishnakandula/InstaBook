@@ -86,7 +86,7 @@ public class CoverFlowFragment extends Fragment
             coverFlowAdapter = new CoverFlowAdapter(getContext(), this);
         }
         coverRecyclerView.setAdapter(coverFlowAdapter);
-        coverRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        coverRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         refreshLayout.setOnRefreshListener(this::onRefresh);
     }
 
