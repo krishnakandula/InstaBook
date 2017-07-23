@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.rastor.instabook.R;
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 import com.google.common.collect.Lists;
 import com.squareup.picasso.Picasso;
 

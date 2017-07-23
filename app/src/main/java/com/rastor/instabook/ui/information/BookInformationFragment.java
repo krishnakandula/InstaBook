@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 import com.mancj.slideup.SlideUp;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;

@@ -1,7 +1,7 @@
 package com.rastor.instabook.app;
 
-import com.rastor.instabook.data.source.BookRepositoryContract;
-import com.rastor.instabook.data.source.BooksRepositoryModule;
+import com.rastor.instabook.data.books.source.BookRepository;
+import com.rastor.instabook.data.books.source.BooksRepositoryModule;
 import com.rastor.instabook.util.ApplicationScoped;
 
 import dagger.Component;
@@ -12,5 +12,5 @@ import dagger.Component;
 @ApplicationScoped
 @Component(modules = BooksRepositoryModule.class)
 public interface AppComponent {
-    BookRepositoryContract getBookRepository();
+    BookRepository getBookRepository();
 }

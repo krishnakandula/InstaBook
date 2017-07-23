@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +15,7 @@ import android.widget.Toast;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 import com.rastor.instabook.ui.information.BookInformationActivity;
 
 import java.util.List;

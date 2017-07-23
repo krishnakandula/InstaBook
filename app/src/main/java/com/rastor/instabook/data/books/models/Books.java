@@ -1,4 +1,4 @@
-package com.rastor.instabook.data.models;
+package com.rastor.instabook.data.books.models;
 
 import com.google.gson.annotations.SerializedName;
 

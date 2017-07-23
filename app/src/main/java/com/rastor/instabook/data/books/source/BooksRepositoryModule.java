@@ -1,4 +1,4 @@
-package com.rastor.instabook.data.source;
+package com.rastor.instabook.data.books.source;
 
 import com.rastor.instabook.app.AppModule;
 import com.rastor.instabook.app.AppStatus;
@@ -19,7 +19,7 @@ public class BooksRepositoryModule {
 
     @Provides
     @ApplicationScoped
-    public BookRepositoryContract provideBookRepository(@NonNull InstaBookApi instaBookApi, @NonNull AppStatus appStatus) {
-        return new BookRepository(instaBookApi, appStatus);
+    public BookRepository provideBookRepository(@NonNull InstaBookApi instaBookApi, @NonNull AppStatus appStatus) {
+        return new CachingBookRepository(instaBookApi, appStatus);
     }
 }

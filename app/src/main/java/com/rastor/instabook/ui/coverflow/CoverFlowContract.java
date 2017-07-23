@@ -1,9 +1,7 @@
 package com.rastor.instabook.ui.coverflow;
 
 
-import android.content.Context;
-
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 
 import java.util.List;
 

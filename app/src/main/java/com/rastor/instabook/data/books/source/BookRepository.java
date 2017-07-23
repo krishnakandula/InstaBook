@@ -1,13 +1,13 @@
-package com.rastor.instabook.data.source;
+package com.rastor.instabook.data.books.source;
 
-import com.rastor.instabook.data.models.Book;
-import com.rastor.instabook.data.models.Books;
+import com.rastor.instabook.data.books.models.Book;
+import com.rastor.instabook.data.books.models.Books;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/2/17.
  */
 
-public interface BookRepositoryContract {
+public interface BookRepository {
 
     interface LoadBookCallback {
         void onBookLoaded(Book book);

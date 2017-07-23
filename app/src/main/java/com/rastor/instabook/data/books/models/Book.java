@@ -1,4 +1,4 @@
-package com.rastor.instabook.data.models;
+package com.rastor.instabook.data.books.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

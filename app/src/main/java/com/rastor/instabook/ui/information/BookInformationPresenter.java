@@ -1,7 +1,7 @@
 package com.rastor.instabook.ui.information;
 
-import com.rastor.instabook.data.models.Book;
-import com.rastor.instabook.data.source.BookRepositoryContract;
+import com.rastor.instabook.data.books.models.Book;
+import com.rastor.instabook.data.books.source.BookRepository;
 
 import lombok.NonNull;
 
@@ -13,14 +13,14 @@ public class BookInformationPresenter implements BookInformationContract.Present
 
     private final String bookId;
 
-    private final BookRepositoryContract booksRepository;
+    private final BookRepository booksRepository;
 
     private final BookInformationContract.View view;
 
     private ViewState viewState;
 
     public BookInformationPresenter(@NonNull String bookId, @NonNull BookInformationContract.View view,
-                                    @NonNull BookRepositoryContract booksRepository) {
+                                    @NonNull BookRepository booksRepository) {
         this.bookId = bookId;
         this.booksRepository = booksRepository;
         this.view = view;
@@ -53,7 +53,7 @@ public class BookInformationPresenter implements BookInformationContract.Present
     @Override
     public void getBook() {
         viewState = ViewState.SHOW_LOADING;
-        booksRepository.getBook(this.bookId, new BookRepositoryContract.LoadBookCallback() {
+        booksRepository.getBook(this.bookId, new BookRepository.LoadBookCallback() {
             @Override
             public void onBookLoaded(Book book) {
                 view.showBookInformation(book);

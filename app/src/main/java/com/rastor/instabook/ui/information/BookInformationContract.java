@@ -1,6 +1,6 @@
 package com.rastor.instabook.ui.information;
 
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 
 import lombok.NonNull;
 

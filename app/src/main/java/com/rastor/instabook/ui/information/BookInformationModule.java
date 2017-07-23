@@ -1,6 +1,6 @@
 package com.rastor.instabook.ui.information;
 
-import com.rastor.instabook.data.source.BookRepositoryContract;
+import com.rastor.instabook.data.books.source.BookRepository;
 import com.rastor.instabook.util.FragmentScoped;
 
 import dagger.Module;
@@ -37,7 +37,7 @@ public class BookInformationModule {
 
     @Provides
     @FragmentScoped
-    public BookInformationPresenter provideBookInformationPresenter(@NonNull BookRepositoryContract booksRepository) {
+    public BookInformationPresenter provideBookInformationPresenter(@NonNull BookRepository booksRepository) {
         return new BookInformationPresenter(this.bookId, this.view, booksRepository);
     }
 }

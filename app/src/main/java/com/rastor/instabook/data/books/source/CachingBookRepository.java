@@ -1,10 +1,10 @@
-package com.rastor.instabook.data.source;
+package com.rastor.instabook.data.books.source;
 
 import android.util.Log;
 
 import com.rastor.instabook.app.AppStatus;
-import com.rastor.instabook.data.models.Book;
-import com.rastor.instabook.data.models.Books;
+import com.rastor.instabook.data.books.models.Book;
+import com.rastor.instabook.data.books.models.Books;
 import com.rastor.instabook.network.InstaBookApi;
 import com.google.common.collect.Maps;
 
@@ -20,7 +20,7 @@ import retrofit2.Response;
  * Created by Krishna Chaitanya Kandula on 7/4/17.
  */
 @RequiredArgsConstructor
-public class BookRepository implements BookRepositoryContract {
+public class CachingBookRepository implements BookRepository {
 
     @NonNull
     private final InstaBookApi instaBookApi;
@@ -30,7 +30,7 @@ public class BookRepository implements BookRepositoryContract {
 
     private Map<String, Book> inMemoryBooksCache = Maps.newHashMap();
 
-    private static final String LOG_TAG = BookRepository.class.getSimpleName();
+    private static final String LOG_TAG = CachingBookRepository.class.getSimpleName();
 
     @Override
     public void getBook(@NonNull String bookId, @NonNull LoadBookCallback callback) {
