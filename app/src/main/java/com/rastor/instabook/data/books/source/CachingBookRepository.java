@@ -2,12 +2,15 @@ package com.rastor.instabook.data.books.source;
 
 import android.util.Log;
 
+import com.google.common.collect.Lists;
 import com.rastor.instabook.app.AppStatus;
 import com.rastor.instabook.data.books.models.Book;
 import com.rastor.instabook.data.books.models.Books;
+import com.rastor.instabook.data.favorites.models.Favorite;
 import com.rastor.instabook.network.InstaBookApi;
 import com.google.common.collect.Maps;
 
+import java.util.List;
 import java.util.Map;
 
 import lombok.NonNull;
@@ -36,7 +39,7 @@ public class CachingBookRepository implements BookRepository {
     public void getBook(@NonNull String bookId, @NonNull LoadBookCallback callback) {
         if(!inMemoryBooksCache.containsKey(bookId)) {
             if(!appStatus.isConnected()) {
-                callback.onDataNotAvailable();
+                callback.onBookNotAvailable();
 
             } else {
                 instaBookApi.getBook(bookId).enqueue(new Callback<Book>() {
@@ -54,7 +57,7 @@ public class CachingBookRepository implements BookRepository {
                     @Override
                     public void onFailure(Call<Book> call, Throwable t) {
                         Log.e(LOG_TAG, t.getMessage(), t);
-                        callback.onDataNotAvailable();
+                        callback.onBookNotAvailable();
                     }
                 });
             }
@@ -64,9 +67,9 @@ public class CachingBookRepository implements BookRepository {
     }
 
     @Override
-    public void getBooks(int limit, int offset, boolean refresh, LoadBooksCallback callback) {
+    public void getBooks(int limit, int offset, boolean refresh, @NonNull LoadBooksCallback callback) {
         if(!appStatus.isConnected()) {
-            callback.onDataNotAvailable();
+            callback.onBooksNotAvailable();
         } else {
             instaBookApi.getBooks(limit, offset).enqueue(new Callback<Books>() {
                 @Override
@@ -81,9 +84,39 @@ public class CachingBookRepository implements BookRepository {
                 @Override
                 public void onFailure(Call<Books> call, Throwable t) {
                     Log.e(LOG_TAG, t.getMessage(), t);
-                    callback.onDataNotAvailable();
+                    callback.onBooksNotAvailable();
                 }
             });
         }
+    }
+
+    @Override
+    public void getFavoriteBooks(@NonNull List<Favorite> favorites, @NonNull LoadFavoriteBooksCallback callback) {
+        getFavoriteBooksHelper(favorites, Lists.newArrayList(), callback);
+    }
+
+    private void getFavoriteBooksHelper(@NonNull List<Favorite> favorites,
+                                              @NonNull List<Book> favoriteBooks,
+                                              @NonNull LoadFavoriteBooksCallback callback) {
+        if(favorites.isEmpty()) {
+            callback.onFavoriteBooksLoaded(favoriteBooks);
+            return;
+        }
+
+        final String favoriteId = favorites.get(favorites.size() - 1).getBookId();
+        favorites.remove(favorites.size() - 1);
+
+        getBook(favoriteId, new LoadBookCallback() {
+            @Override
+            public void onBookLoaded(Book book) {
+                favoriteBooks.add(book);
+                getFavoriteBooksHelper(favorites, favoriteBooks, callback);
+            }
+
+            @Override
+            public void onBookNotAvailable() {
+                getFavoriteBooksHelper(favorites, favoriteBooks, callback);
+            }
+        });
     }
 }

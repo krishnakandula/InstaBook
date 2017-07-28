@@ -13,11 +13,11 @@ public interface FavoritesRepository {
     interface LoadFavoritesCallback {
         void onFavoritesLoaded(List<Favorite> favorites);
 
-        void onDataNotAvailable();
+        void onFavoritesNotAvailable();
     }
 
     void addFavorite(Favorite favorite);
 
-    void getFavorites(LoadFavoritesCallback callback);
+    void getFavorites(int offset, LoadFavoritesCallback callback);
 }
 

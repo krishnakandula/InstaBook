@@ -4,7 +4,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="minimum_fav_image_width">157dp</dimen>
-    <dimen name="minimum_fav_image_height">230</dimen>
+    <dimen name="minimum_fav_image_height">230dp</dimen>
 
     <dimen name="minimum_coverflow_image_height">310dp</dimen>
     <dimen name="circle_cover_image_diameter">138dp</dimen>

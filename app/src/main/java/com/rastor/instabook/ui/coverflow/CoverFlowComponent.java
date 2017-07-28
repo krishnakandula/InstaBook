@@ -8,6 +8,7 @@ import dagger.Component;
 /**
  * Created by Krishna Chaitanya Kandula on 7/8/17.
  */
+
 @FragmentScoped
 @Component(modules = CoverFlowModule.class, dependencies = AppComponent.class)
 public interface CoverFlowComponent {

@@ -47,7 +47,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     @Override
     public void getData(int offset, boolean refresh) {
-        this.view.showLoading();
+        view.showLoading();
         this.viewState = ViewState.SHOW_LOADING;
 
         bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, refresh, new BookRepository.LoadBooksCallback() {
@@ -66,7 +66,7 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
             }
 
             @Override
-            public void onDataNotAvailable() {
+            public void onBooksNotAvailable() {
                 view.stopLoading();
                 view.showErrorMessage();
                 viewState = ViewState.SHOW_ERROR;

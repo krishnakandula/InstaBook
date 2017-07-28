@@ -1,7 +1,8 @@
 package com.rastor.instabook.ui.information;
 
-import com.rastor.instabook.data.books.source.BookRepository;
 import com.rastor.instabook.util.FragmentScoped;
+
+import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -37,7 +38,8 @@ public class BookInformationModule {
 
     @Provides
     @FragmentScoped
-    public BookInformationPresenter provideBookInformationPresenter(@NonNull BookRepository booksRepository) {
-        return new BookInformationPresenter(this.bookId, this.view, booksRepository);
+    @Named(value = "BookInformationId")
+    public String provideBookId() {
+        return this.bookId;
     }
 }

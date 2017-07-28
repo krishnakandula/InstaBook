@@ -20,11 +20,11 @@ public abstract class FavoritesRepositoryModule {
 
     @Provides
     @ApplicationScoped
-    public SQLiteDatabase provideFavoritesDatabase(@NonNull FavoritesBaseHelper baseHelper) {
+    public static SQLiteDatabase provideFavoritesDatabase(@NonNull FavoritesBaseHelper baseHelper) {
         return baseHelper.getWritableDatabase();
     }
 
     @Binds
     @ApplicationScoped
-    public abstract BookRepository provideBookRepository(@NonNull StoringFavoritesRepository repository);
+    public abstract FavoritesRepository provideFavoritesRepository(@NonNull StoringFavoritesRepository repository);
 }

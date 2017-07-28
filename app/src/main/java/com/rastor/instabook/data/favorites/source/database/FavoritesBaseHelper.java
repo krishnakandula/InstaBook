@@ -31,12 +31,13 @@ public class FavoritesBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         final String createStatement = "create table " + FavoriteTable.NAME + "("
-                                        + FavoriteTable.Cols.BOOK_ID + "_id STRING primary key)";
+                                        + FavoriteTable.Cols.BOOK_ID + " STRING primary key)";
         db.execSQL(createStatement);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //TODO: Add drop table or some type of upgrade
+        db.execSQL("drop table if exists " + FavoriteTable.NAME);
+        onCreate(db);
     }
 }

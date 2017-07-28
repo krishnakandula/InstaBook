@@ -74,9 +74,9 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
         notifyItemRangeInserted(currentRange, this.books.size());
     }
 
-    public class CoverFlowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class CoverFlowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        @BindView(R.id.bookCoverImageView_coverFlowViewHolder)
+        @BindView(R.id.bookCoverImageView_favoritesItemView)
         ImageView bookCoverImageView;
 
         int position;
@@ -90,7 +90,7 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
         public void onBind(int position) {
             this.position = position;
             Book book = books.get(position);
-            if(position == books.size() - 1) {
+            if (position == books.size() - 1) {
                 //Load more books
                 itemViewTouchListener.onReachCoverFlowEnd();
             }
@@ -114,6 +114,7 @@ public class CoverFlowAdapter extends RecyclerView.Adapter<CoverFlowAdapter.Cove
 
     interface CoverFlowItemViewInteractionListener {
         void onClickCoverFlowItem(int position);
+
         void onReachCoverFlowEnd();
     }
 }

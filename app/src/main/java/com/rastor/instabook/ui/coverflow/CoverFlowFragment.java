@@ -38,24 +38,12 @@ public class CoverFlowFragment extends Fragment
     @BindView(R.id.coverRecyclerView_coverFlowFragment) RecyclerView coverRecyclerView;
     @BindView(R.id.coverRecyclerView_refreshLayout) SwipeRefreshLayout refreshLayout;
 
-    private OnCoverFlowFragmentInteractionListener mListener;
     private CoverFlowAdapter coverFlowAdapter;
 
     public static final String LOG_TAG = CoverFlowFragment.class.getSimpleName();
 
     public static CoverFlowFragment newInstance() {
         return new CoverFlowFragment();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnCoverFlowFragmentInteractionListener) {
-            mListener = (OnCoverFlowFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnCoverFlowFragmentInteractionListener");
-        }
     }
 
     @Override
@@ -132,12 +120,6 @@ public class CoverFlowFragment extends Fragment
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onClickCoverFlowItem(int position) {
         presenter.onCoverClicked(position);
     }
@@ -152,8 +134,5 @@ public class CoverFlowFragment extends Fragment
     public void showErrorMessage() {
         Toast.makeText(getContext(), getString(R.string.default_loading_error_message), Toast.LENGTH_LONG)
                 .show();
-    }
-
-    public interface OnCoverFlowFragmentInteractionListener {
     }
 }

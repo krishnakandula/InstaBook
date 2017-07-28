@@ -2,7 +2,9 @@ package com.rastor.instabook.data.favorites.source;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.common.collect.Lists;
 import com.rastor.instabook.data.favorites.models.Favorite;
@@ -28,6 +30,8 @@ public class StoringFavoritesRepository implements FavoritesRepository {
     @NonNull
     private final SQLiteDatabase database;
 
+    private static final String LOG_TAG = StoringFavoritesRepository.class.getSimpleName();
+
     @Inject
     public StoringFavoritesRepository(@NonNull SQLiteDatabase database) {
         this.database = database;
@@ -35,7 +39,11 @@ public class StoringFavoritesRepository implements FavoritesRepository {
 
     @Override
     public void addFavorite(@NonNull Favorite favorite) {
-        database.insert(FavoriteTable.NAME, null, getContentValues(favorite));
+        try {
+            database.insert(FavoriteTable.NAME, null, getContentValues(favorite));
+        } catch (SQLiteConstraintException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+        }
     }
 
     private ContentValues getContentValues(@NonNull Favorite favorite) {
@@ -46,17 +54,14 @@ public class StoringFavoritesRepository implements FavoritesRepository {
     }
 
     @Override
-    public void getFavorites(@NonNull LoadFavoritesCallback callback) {
-        Cursor cursor = database.query(FavoriteTable.NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
+    public void getFavorites(int offset, @NonNull LoadFavoritesCallback callback) {
+        Cursor cursor = database.rawQuery("select * from " + FavoriteTable.NAME, null);
 
         FavoritesCursorWrapper cursorWrapper = new FavoritesCursorWrapper(cursor);
         List<Favorite> favorites = Lists.newArrayList();
+
+        cursor.moveToFirst();
+        cursor.move(offset);
         while(!cursor.isAfterLast()) {
             favorites.add(cursorWrapper.getFavorite());
             cursor.moveToNext();

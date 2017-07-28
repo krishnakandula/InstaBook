@@ -33,6 +33,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import lombok.NoArgsConstructor;
@@ -212,6 +213,11 @@ public class BookInformationFragment extends Fragment implements BookInformation
     @Override
     public void showError(@NonNull String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.fab_bookInformationFragment)
+    public void onClickFab() {
+        presenter.onFavorited();
     }
 
     private final Callback setThemeColorCallback = new Callback() {

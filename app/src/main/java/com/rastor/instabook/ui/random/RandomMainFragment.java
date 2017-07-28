@@ -84,7 +84,7 @@ public class RandomMainFragment extends Fragment {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
+                public void onBooksNotAvailable() {
                     //TODO: Show some error message here
                 }
             });

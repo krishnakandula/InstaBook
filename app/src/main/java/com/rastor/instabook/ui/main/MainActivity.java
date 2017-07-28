@@ -8,7 +8,9 @@ import android.os.Bundle;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
+import com.rastor.instabook.data.favorites.models.Favorite;
 import com.rastor.instabook.ui.coverflow.CoverFlowFragment;
+import com.rastor.instabook.ui.favorites.FavoritesFragment;
 import com.rastor.instabook.ui.random.RandomMainFragment;
 
 import javax.inject.Inject;
@@ -16,8 +18,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View,
-        CoverFlowFragment.OnCoverFlowFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @Inject MainContract.Presenter mainPresenter;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private CoverFlowFragment coverFlowFragment;
     private RandomMainFragment randomMainFragment;
+    private FavoritesFragment favoritesFragment;
     private MainContract.ViewState savedViewState;
 
     private static final String VIEW_STATE_TAG = "view_state_tag";
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 case R.id.menu_item_activity_main_random_book:
                     mainPresenter.onRandomBookNavItemClicked();
                     return true;
+                case R.id.menu_item_activity_main_favorites:
+                    mainPresenter.onFavoritesNavItemClicked();
+                    return true;
                 default:
                     return false;
             }
@@ -75,8 +80,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         coverFlowFragment = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(CoverFlowFragment.LOG_TAG);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(randomMainFragment != null) {
+        if(randomMainFragment != null && randomMainFragment.isAdded()) {
             transaction.detach(randomMainFragment);
+        }
+
+        if(favoritesFragment != null && favoritesFragment.isAdded()) {
+            transaction.detach(favoritesFragment);
         }
 
         if(coverFlowFragment == null) {
@@ -93,8 +102,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         randomMainFragment = (RandomMainFragment) getSupportFragmentManager().findFragmentByTag(RandomMainFragment.LOG_TAG);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if(coverFlowFragment != null) {
+        if(coverFlowFragment != null && coverFlowFragment.isAdded()) {
             transaction.detach(coverFlowFragment);
+        }
+
+        if(favoritesFragment != null && favoritesFragment.isAdded()) {
+            transaction.detach(favoritesFragment);
         }
 
         if(randomMainFragment == null) {
@@ -108,7 +121,24 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void launchFavoritesView() {
+        favoritesFragment = (FavoritesFragment) getSupportFragmentManager().findFragmentByTag(FavoritesFragment.LOG_TAG);
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(coverFlowFragment != null && coverFlowFragment.isAdded()) {
+            transaction.detach(coverFlowFragment);
+        }
+
+        if(randomMainFragment != null && randomMainFragment.isAdded()) {
+            transaction.detach(randomMainFragment);
+        }
+
+        if(favoritesFragment == null) {
+            favoritesFragment = FavoritesFragment.newInstance();
+            transaction.add(R.id.fragmentContainer_mainActivity, favoritesFragment, FavoritesFragment.LOG_TAG);
+        } else {
+            transaction.attach(favoritesFragment);
+        }
+        transaction.commit();
     }
 
     @Override
