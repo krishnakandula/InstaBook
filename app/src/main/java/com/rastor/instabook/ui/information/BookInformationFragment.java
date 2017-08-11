@@ -3,6 +3,7 @@ package com.rastor.instabook.ui.information;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -213,6 +214,18 @@ public class BookInformationFragment extends Fragment implements BookInformation
     @Override
     public void showError(@NonNull String message) {
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showIsFavorited(boolean isFavorited) {
+        Drawable drawable;
+        if(isFavorited) {
+            drawable = getContext().getDrawable(R.drawable.ic_favorite_white_24dp);
+        } else {
+            drawable = getContext().getDrawable(R.drawable.ic_favorite_border_white_24dp);
+        }
+
+        fab.setImageDrawable(drawable);
     }
 
     @OnClick(R.id.fab_bookInformationFragment)

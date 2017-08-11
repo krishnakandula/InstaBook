@@ -11,6 +11,7 @@ import lombok.NonNull;
 public interface BookInformationContract {
     interface View {
         void showBookInformation(@NonNull Book book);
+        void showIsFavorited(boolean isFavorited);
         void showSamplePage(boolean immediate);
         void hideSamplePage();
         void showError(String message);
@@ -20,6 +21,7 @@ public interface BookInformationContract {
     interface Presenter {
         void start();
         void getBook();
+        void getIsFavorited();
         void onViewSamplePage(boolean pageIsVisible);
         void onFavorited();
     }

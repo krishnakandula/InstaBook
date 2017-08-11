@@ -28,6 +28,8 @@ public class BookInformationPresenter implements BookInformationContract.Present
 
     private ViewState viewState;
 
+    private boolean isFavorited;
+
     @Inject
     public BookInformationPresenter(@NonNull @Named(value = "BookInformationId") String bookId,
                                     @NonNull BookInformationContract.View view,
@@ -38,6 +40,7 @@ public class BookInformationPresenter implements BookInformationContract.Present
         this.favoritesRepository = favoritesRepository;
         this.view = view;
         viewState = ViewState.START;
+        isFavorited = false;
     }
 
     @Override
@@ -45,12 +48,14 @@ public class BookInformationPresenter implements BookInformationContract.Present
         switch (viewState) {
             case START:
                 getBook();
+                getIsFavorited();
                 break;
             case SHOW_LOADING:
                 //Do nothing
                 break;
             case SHOW_CONTENT:
                 view.showBookInformation(view.getExistingData());
+                getIsFavorited();
                 break;
             case SHOW_DETAILS:
                 Book book = view.getExistingData();
@@ -81,6 +86,15 @@ public class BookInformationPresenter implements BookInformationContract.Present
     }
 
     @Override
+    public void getIsFavorited() {
+        viewState = ViewState.SHOW_LOADING;
+        favoritesRepository.isFavorited(this.bookId, favorited -> {
+            isFavorited = favorited;
+            view.showIsFavorited(favorited);
+        });
+    }
+
+    @Override
     public void onViewSamplePage(boolean pageIsVisible) {
         if(pageIsVisible){
             viewState = ViewState.SHOW_CONTENT;
@@ -94,7 +108,14 @@ public class BookInformationPresenter implements BookInformationContract.Present
     @Override
     public void onFavorited() {
         //TODO: Show message that favorite was added
-        favoritesRepository.addFavorite(new Favorite(this.bookId));
+        isFavorited = !isFavorited;
+        view.showIsFavorited(isFavorited);
+
+        if(this.isFavorited) {
+            favoritesRepository.addFavorite(new Favorite(bookId));
+        } else {
+            favoritesRepository.deleteFavorite(bookId);
+        }
     }
 
     enum ViewState {

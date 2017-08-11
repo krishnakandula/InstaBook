@@ -16,8 +16,16 @@ public interface FavoritesRepository {
         void onFavoritesNotAvailable();
     }
 
+    interface IsFavoritedCallback {
+        void onSuccess(boolean isFavorited);
+    }
+
     void addFavorite(Favorite favorite);
 
+    void deleteFavorite(String bookId);
+
     void getFavorites(int offset, LoadFavoritesCallback callback);
+
+    void isFavorited(String bookId, IsFavoritedCallback callback);
 }
 

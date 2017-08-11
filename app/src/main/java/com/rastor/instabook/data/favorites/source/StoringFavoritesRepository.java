@@ -62,12 +62,26 @@ public class StoringFavoritesRepository implements FavoritesRepository {
 
         cursor.moveToFirst();
         cursor.move(offset);
-        while(!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast()) {
             favorites.add(cursorWrapper.getFavorite());
             cursor.moveToNext();
         }
         cursorWrapper.close();
 
         callback.onFavoritesLoaded(favorites);
+    }
+
+    @Override
+    public void isFavorited(@NonNull String bookId, @NonNull IsFavoritedCallback callback) {
+        Cursor cursor = database.rawQuery("select * from " + FavoriteTable.NAME +
+                " where " + FavoriteTable.Cols.BOOK_ID + " = '" + bookId + "'", null);
+
+        boolean isFavorited = cursor.getCount() > 0;
+        callback.onSuccess(isFavorited);
+    }
+
+    @Override
+    public void deleteFavorite(@NonNull String bookId) {
+        database.execSQL("delete from " + FavoriteTable.NAME + " where " + FavoriteTable.Cols.BOOK_ID + " = '" + bookId + "'");
     }
 }
