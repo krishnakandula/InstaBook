@@ -3,6 +3,8 @@ package com.rastor.instabook.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.rastor.instabook.util.ApplicationScoped;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,6 +15,7 @@ import dagger.Provides;
  */
 @Module
 public class AppModule {
+
     private Application application;
 
     public AppModule(Application application){
@@ -20,8 +23,14 @@ public class AppModule {
     }
 
     @Provides
-    @Singleton
+    @ApplicationScoped
     public Context provideContext(){
         return application;
+    }
+
+    @Provides
+    @ApplicationScoped
+    public AppStatus provideAppStatus() {
+        return new AppStatus(application);
     }
 }

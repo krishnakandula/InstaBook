@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.rastor.instabook.ui.coverflow;
 
 import com.rastor.instabook.app.Constants;
-import com.rastor.instabook.data.models.Books;
-import com.rastor.instabook.data.source.BookRepositoryContract;
+import com.rastor.instabook.data.books.models.Books;
+import com.rastor.instabook.data.books.source.BookRepository;
 
 import lombok.NonNull;
 
@@ -14,13 +14,13 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
 
     private final CoverFlowContract.View view;
 
-    private final BookRepositoryContract bookRepository;
+    private final BookRepository bookRepository;
 
     private ViewState viewState;
 
     private static final String LOG_TAG = CoverFlowPresenter.class.getSimpleName();
 
-    public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepositoryContract bookRepository) {
+    public CoverFlowPresenter(@NonNull CoverFlowContract.View view, @NonNull BookRepository bookRepository) {
         this.view = view;
         this.bookRepository = bookRepository;
         this.viewState = ViewState.START;
@@ -39,18 +39,18 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
                 view.setData(view.getExistingData());
                 break;
             case SHOW_ERROR:
-                //TODO: Change to string resource
-                view.showError("Unable to retrieve data");
+                view.stopLoading();
+                view.showErrorMessage();
                 break;
         }
     }
 
     @Override
     public void getData(int offset, boolean refresh) {
-        this.view.showLoading();
+        view.showLoading();
         this.viewState = ViewState.SHOW_LOADING;
 
-        bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, refresh, new BookRepositoryContract.LoadBooksCallback() {
+        bookRepository.getBooks(Constants.BOOKS_LIMIT, offset, refresh, new BookRepository.LoadBooksCallback() {
             @Override
             public void onBooksLoaded(Books books) {
                 if(!books.getBooks().isEmpty()) {
@@ -66,8 +66,9 @@ public class CoverFlowPresenter implements CoverFlowContract.Presenter {
             }
 
             @Override
-            public void onDataNotAvailable() {
-                //Show view error screen
+            public void onBooksNotAvailable() {
+                view.stopLoading();
+                view.showErrorMessage();
                 viewState = ViewState.SHOW_ERROR;
             }
         });

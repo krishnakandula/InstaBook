@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.Constants;
 import com.rastor.instabook.app.MainApplication;
-import com.rastor.instabook.data.models.Book;
-import com.rastor.instabook.data.models.Books;
-import com.rastor.instabook.data.source.BookRepositoryContract;
+import com.rastor.instabook.data.books.models.Book;
+import com.rastor.instabook.data.books.models.Books;
+import com.rastor.instabook.data.books.source.BookRepository;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 
 public class RandomMainFragment extends Fragment {
 
-    @Inject BookRepositoryContract bookRepository;
+    @Inject BookRepository bookRepository;
 
     @BindView(R.id.viewPager_randomFragment) ViewPager randomViewPager;
 
@@ -75,7 +75,7 @@ public class RandomMainFragment extends Fragment {
         pagerAdapter = new RandomPagerAdapter(getChildFragmentManager(), Lists.newArrayList());
         randomViewPager.setAdapter(pagerAdapter);
         if(bookList == null || bookList.isEmpty()) {
-            bookRepository.getBooks(Constants.BOOKS_LIMIT, 0, false, new BookRepositoryContract.LoadBooksCallback() {
+            bookRepository.getBooks(Constants.BOOKS_LIMIT, 0, false, new BookRepository.LoadBooksCallback() {
                 @Override
                 public void onBooksLoaded(Books books) {
                     Collections.shuffle(books.getBooks());
@@ -84,7 +84,7 @@ public class RandomMainFragment extends Fragment {
                 }
 
                 @Override
-                public void onDataNotAvailable() {
+                public void onBooksNotAvailable() {
                     //TODO: Show some error message here
                 }
             });

@@ -1,7 +1,7 @@
 package com.rastor.instabook.network;
 
-import com.rastor.instabook.data.models.Book;
-import com.rastor.instabook.data.models.Books;
+import com.rastor.instabook.data.books.models.Book;
+import com.rastor.instabook.data.books.models.Books;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

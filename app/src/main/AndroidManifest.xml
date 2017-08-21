@@ -3,7 +3,8 @@
     package="com.rastor.instabook">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    
     <application
         android:name="com.rastor.instabook.app.MainApplication"
         android:allowBackup="true"
@@ -21,7 +22,7 @@
         </activity>
         <activity
             android:name="com.rastor.instabook.ui.information.BookInformationActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

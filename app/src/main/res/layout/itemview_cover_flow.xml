@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/bookCoverImageView_coverFlowViewHolder"
+        android:id="@+id/bookCoverImageView_favoritesItemView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

@@ -8,7 +8,9 @@ import android.os.Bundle;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
+import com.rastor.instabook.data.favorites.models.Favorite;
 import com.rastor.instabook.ui.coverflow.CoverFlowFragment;
+import com.rastor.instabook.ui.favorites.FavoritesFragment;
 import com.rastor.instabook.ui.random.RandomMainFragment;
 
 import javax.inject.Inject;
@@ -16,8 +18,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements MainContract.View,
-        CoverFlowFragment.OnCoverFlowFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @Inject MainContract.Presenter mainPresenter;
 
@@ -25,9 +26,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     private CoverFlowFragment coverFlowFragment;
     private RandomMainFragment randomMainFragment;
+    private FavoritesFragment favoritesFragment;
     private MainContract.ViewState savedViewState;
 
-    private static final String COVER_FLOW_FRAGMENT_TAG = "cover_flow_fragment_tag";
     private static final String VIEW_STATE_TAG = "view_state_tag";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -58,11 +59,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 case R.id.menu_item_activity_main_random_book:
                     mainPresenter.onRandomBookNavItemClicked();
                     return true;
+                case R.id.menu_item_activity_main_favorites:
+                    mainPresenter.onFavoritesNavItemClicked();
+                    return true;
                 default:
                     return false;
             }
         });
     }
+
 
     @Override
     protected void onResume() {
@@ -72,37 +77,68 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void launchCoverFlowView() {
-        final String COVERFLOW_BACKSTACK = "coverflow_backstack";
-        coverFlowFragment = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(COVER_FLOW_FRAGMENT_TAG);
+        coverFlowFragment = (CoverFlowFragment) getSupportFragmentManager().findFragmentByTag(CoverFlowFragment.LOG_TAG);
 
-        getSupportFragmentManager().popBackStackImmediate(COVERFLOW_BACKSTACK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(randomMainFragment != null && randomMainFragment.isAdded()) {
+            transaction.detach(randomMainFragment);
+        }
+
+        if(favoritesFragment != null && favoritesFragment.isAdded()) {
+            transaction.detach(favoritesFragment);
+        }
+
         if(coverFlowFragment == null) {
             coverFlowFragment = CoverFlowFragment.newInstance();
+            transaction.add(R.id.fragmentContainer_mainActivity, coverFlowFragment, CoverFlowFragment.LOG_TAG);
         } else {
-            transaction.addToBackStack(COVERFLOW_BACKSTACK);
+            transaction.attach(coverFlowFragment);
         }
-        transaction.replace(R.id.fragmentContainer_mainActivity, coverFlowFragment, COVER_FLOW_FRAGMENT_TAG).commit();
+        transaction.commit();
     }
 
     @Override
     public void launchBookView() {
-        final String BOOKVIEW_BACKSTACK = "bookview_backstack";
         randomMainFragment = (RandomMainFragment) getSupportFragmentManager().findFragmentByTag(RandomMainFragment.LOG_TAG);
 
-        getSupportFragmentManager().popBackStackImmediate(BOOKVIEW_BACKSTACK, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(coverFlowFragment != null && coverFlowFragment.isAdded()) {
+            transaction.detach(coverFlowFragment);
+        }
+
+        if(favoritesFragment != null && favoritesFragment.isAdded()) {
+            transaction.detach(favoritesFragment);
+        }
+
         if(randomMainFragment == null) {
             randomMainFragment = RandomMainFragment.newInstance();
+            transaction.add(R.id.fragmentContainer_mainActivity, randomMainFragment, RandomMainFragment.LOG_TAG);
         } else {
-            transaction.addToBackStack(BOOKVIEW_BACKSTACK);
+            transaction.attach(randomMainFragment);
         }
-        transaction.replace(R.id.fragmentContainer_mainActivity, randomMainFragment, RandomMainFragment.LOG_TAG).commit();
+        transaction.commit();
     }
 
     @Override
     public void launchFavoritesView() {
+        favoritesFragment = (FavoritesFragment) getSupportFragmentManager().findFragmentByTag(FavoritesFragment.LOG_TAG);
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if(coverFlowFragment != null && coverFlowFragment.isAdded()) {
+            transaction.detach(coverFlowFragment);
+        }
+
+        if(randomMainFragment != null && randomMainFragment.isAdded()) {
+            transaction.detach(randomMainFragment);
+        }
+
+        if(favoritesFragment == null) {
+            favoritesFragment = FavoritesFragment.newInstance();
+            transaction.add(R.id.fragmentContainer_mainActivity, favoritesFragment, FavoritesFragment.LOG_TAG);
+        } else {
+            transaction.attach(favoritesFragment);
+        }
+        transaction.commit();
     }
 
     @Override

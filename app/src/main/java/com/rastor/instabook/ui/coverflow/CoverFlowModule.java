@@ -1,6 +1,6 @@
 package com.rastor.instabook.ui.coverflow;
 
-import com.rastor.instabook.data.source.BookRepositoryContract;
+import com.rastor.instabook.data.books.source.BookRepository;
 import com.rastor.instabook.util.FragmentScoped;
 
 import dagger.Module;
@@ -33,7 +33,7 @@ public class CoverFlowModule {
 
     @Provides
     @FragmentScoped
-    public CoverFlowPresenter provideCoverFlowPresenter(@NonNull BookRepositoryContract bookRepository) {
+    public CoverFlowPresenter provideCoverFlowPresenter(@NonNull BookRepository bookRepository) {
         return new CoverFlowPresenter(this.view, bookRepository);
     }
  }

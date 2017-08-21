@@ -3,6 +3,7 @@ package com.rastor.instabook.ui.information;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -24,7 +25,7 @@ import android.widget.TextView;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
-import com.rastor.instabook.data.models.Book;
+import com.rastor.instabook.data.books.models.Book;
 import com.mancj.slideup.SlideUp;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -33,6 +34,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.picasso.transformations.BlurTransformation;
 import lombok.NoArgsConstructor;
@@ -52,7 +54,6 @@ public class BookInformationFragment extends Fragment implements BookInformation
     @BindView(R.id.toolbar_bookInformationFragment) Toolbar toolbar;
     @BindView(R.id.titleTextView_bookInformationFragment) TextView tileTextView;
     @BindView(R.id.authorTextView_bookInformationFragment) TextView authorTextView;
-    @BindView(R.id.summaryTextView_bookInformationFragment) TextView summaryTextView;
     @BindView(R.id.infoTextView_bookInformationFragment) TextView infoTextView;
     @BindView(R.id.fab_bookInformationFragment) FloatingActionButton fab;
     @BindView(R.id.bookCoverImageView_bookInformationFragment) CircleImageView coverImageView;
@@ -111,7 +112,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        final int animationDuration = 200;
+        final int animationDuration = 150;
         final int COVER_IMAGE_ANIMATION_PERCENTAGE = 20;
 
         if (mMaxScrollRange == 0)
@@ -153,7 +154,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
     }
 
     private void setupSampleButton() {
-        sampleButton.setText("Read Sample");
+        sampleButton.setText(getText(R.string.view_sample_text));
         sampleButton.setOnClickListener(v -> presenter.onViewSamplePage(samplePageSlideUp.isVisible()));
     }
 
@@ -168,8 +169,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
         this.mBook = book;
         tileTextView.setText(book.getTitle());
         authorTextView.setText(book.getAuthor());
-        infoTextView.setText("sdfhskjdhfkjshdf");
-        summaryTextView.setText("sdlfksl;dkfjsdf");
+        infoTextView.setText(book.getInformation());
         sampleTextView.setText(book.getPage());
 
         coverImageView.post(() -> {
@@ -196,14 +196,14 @@ public class BookInformationFragment extends Fragment implements BookInformation
         } else {
             samplePageSlideUp.show();
         }
-        sampleButton.setText("Done");
+        sampleButton.setText(getText(R.string.view_information_text));
     }
 
     @Override
     public void hideSamplePage() {
         samplePageSlideUp.hide();
         fab.show();
-        sampleButton.setText("Read A Sample");
+        sampleButton.setText(getText(R.string.view_sample_text));
     }
 
     @Override
@@ -216,6 +216,23 @@ public class BookInformationFragment extends Fragment implements BookInformation
         Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
     }
 
+    @Override
+    public void showIsFavorited(boolean isFavorited) {
+        Drawable drawable;
+        if(isFavorited) {
+            drawable = getContext().getDrawable(R.drawable.ic_favorite_white_24dp);
+        } else {
+            drawable = getContext().getDrawable(R.drawable.ic_favorite_border_white_24dp);
+        }
+
+        fab.setImageDrawable(drawable);
+    }
+
+    @OnClick(R.id.fab_bookInformationFragment)
+    public void onClickFab() {
+        presenter.onFavorited();
+    }
+
     private final Callback setThemeColorCallback = new Callback() {
         @Override
         public void onSuccess() {
@@ -224,6 +241,7 @@ public class BookInformationFragment extends Fragment implements BookInformation
             Palette.from(bitmap).generate(palette -> {
                 toolbar.setBackgroundColor(palette.getMutedColor(defaultColor));
                 titleContainerLayout.setBackgroundColor(palette.getMutedColor(defaultColor));
+                getActivity().getWindow().setStatusBarColor(palette.getMutedColor(defaultColor));
             });
         }
 
