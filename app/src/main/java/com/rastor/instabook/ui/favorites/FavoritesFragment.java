@@ -3,6 +3,7 @@ package com.rastor.instabook.ui.favorites;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ public class FavoritesFragment extends Fragment implements FavoritesContract.Vie
     @Inject FavoritesContract.Presenter presenter;
 
     @BindView(R.id.recylerview_favoritesFragment) RecyclerView favoritesRecyclerView;
+    @BindView(R.id.favoritesRefreshLayout_favoritesFragment) SwipeRefreshLayout favoritesRefreshLayout;
 
     private FavoritesAdapter favoritesAdapter;
 
@@ -67,6 +69,7 @@ public class FavoritesFragment extends Fragment implements FavoritesContract.Vie
         }
         favoritesRecyclerView.setAdapter(favoritesAdapter);
         favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        favoritesRefreshLayout.setOnRefreshListener(this::onRefreshSwipeRefreshLayout);
     }
 
     @Override
@@ -95,14 +98,18 @@ public class FavoritesFragment extends Fragment implements FavoritesContract.Vie
 
     }
 
+    public void onRefreshSwipeRefreshLayout() {
+        presenter.onRefresh();
+    }
+
     @Override
     public void showLoading() {
-
+        favoritesRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void stopLoading() {
-
+        favoritesRefreshLayout.setRefreshing(false);
     }
 
     @Override

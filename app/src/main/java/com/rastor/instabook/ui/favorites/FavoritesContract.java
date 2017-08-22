@@ -22,6 +22,7 @@ public interface FavoritesContract {
     interface Presenter {
         void start();
         void getData(int offset);
+        void onRefresh();
         void onFavoriteClicked(int position);
     }
 }

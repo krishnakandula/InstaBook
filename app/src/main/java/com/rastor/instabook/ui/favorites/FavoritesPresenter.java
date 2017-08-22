@@ -1,7 +1,5 @@
 package com.rastor.instabook.ui.favorites;
 
-import com.google.common.collect.Lists;
-import com.rastor.instabook.data.books.models.Book;
 import com.rastor.instabook.data.books.source.BookRepository;
 import com.rastor.instabook.data.favorites.models.Favorite;
 import com.rastor.instabook.data.favorites.source.FavoritesRepository;
@@ -85,6 +83,11 @@ public class FavoritesPresenter implements FavoritesContract.Presenter {
                 viewState = ViewState.SHOW_ERROR;
             }
         });
+    }
+
+    @Override
+    public void onRefresh() {
+        getData(0);
     }
 
     @Override
