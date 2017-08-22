@@ -25,7 +25,7 @@ import butterknife.OnClick;
 
 public class RandomPageFragment extends Fragment {
 
-    @BindView(R.id.pageTextView_randomPageFragment) TextView pageTextView;
+    @BindView(R.id.page_text_view_samplePageLayout) TextView pageTextView;
     @BindView(R.id.viewBookButton_randomPageFragment) Button viewBookButton;
 
     private Book mBook;
