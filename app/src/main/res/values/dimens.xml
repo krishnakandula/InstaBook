@@ -2,6 +2,9 @@
 <resources>
     <dimen name="background_image_height">250dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_radius">56dp</dimen>
+    <dimen name="fab_width">@dimen/fab_radius</dimen>
+    <dimen name="fab_height">@dimen/fab_radius</dimen>
 
     <dimen name="minimum_fav_image_width">157dp</dimen>
     <dimen name="minimum_fav_image_height">230dp</dimen>

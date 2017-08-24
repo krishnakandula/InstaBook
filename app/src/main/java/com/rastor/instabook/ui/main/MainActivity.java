@@ -1,14 +1,12 @@
 package com.rastor.instabook.ui.main;
 
+import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
-import com.rastor.instabook.data.favorites.models.Favorite;
 import com.rastor.instabook.ui.coverflow.CoverFlowFragment;
 import com.rastor.instabook.ui.favorites.FavoritesFragment;
 import com.rastor.instabook.ui.random.RandomMainFragment;
