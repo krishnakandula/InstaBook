@@ -3,6 +3,7 @@ package com.rastor.instabook.ui.random;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class RandomMainFragment extends Fragment implements RandomContract.View 
     @Inject RandomContract.Presenter presenter;
 
     @BindView(R.id.page_text_view_samplePageLayout) TextView pageTextView;
+    @BindView(R.id.swipeRefreshLayout_randomFragment) SwipeRefreshLayout swipeRefreshLayout;
 
     public static final String LOG_TAG = RandomMainFragment.class.getSimpleName();
 
@@ -52,6 +54,8 @@ public class RandomMainFragment extends Fragment implements RandomContract.View 
         View view = inflater.inflate(R.layout.fragment_random, container, false);
         setRetainInstance(true);
         ButterKnife.bind(this, view);
+        swipeRefreshLayout.setOnRefreshListener(this::onSwipeRefreshLayout);
+
         return view;
     }
 
@@ -63,12 +67,12 @@ public class RandomMainFragment extends Fragment implements RandomContract.View 
 
     @Override
     public void showLoading() {
-        //TODO:
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void stopLoading() {
-        //TODO:
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -81,7 +85,7 @@ public class RandomMainFragment extends Fragment implements RandomContract.View 
         //TODO:
     }
 
-    private void getRandomBook() {
-
+    private void onSwipeRefreshLayout() {
+        presenter.onRefresh();
     }
 }

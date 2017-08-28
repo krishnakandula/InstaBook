@@ -67,6 +67,6 @@ public class RandomPresenter implements RandomContract.Presenter {
 
     @Override
     public void onRefresh() {
-
+        getRandomBook();
     }
 }
