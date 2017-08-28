@@ -9,7 +9,7 @@ public interface RandomContract {
         void showLoading();
         void stopLoading();
         void showRandomPageText(String pageText);
-        void launchBookInformationView();
+        void launchBookInformationView(String bookId);
     }
 
     interface Presenter {

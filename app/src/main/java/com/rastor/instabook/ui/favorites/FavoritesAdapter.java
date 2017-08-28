@@ -1,6 +1,7 @@
 package com.rastor.instabook.ui.favorites;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.google.common.collect.Lists;
 import com.rastor.instabook.R;
 import com.rastor.instabook.data.books.models.Book;
 import com.rastor.instabook.network.ImageRouteCreator;
+import com.rastor.instabook.ui.information.BookInformationActivity;
 import com.rastor.instabook.util.BookListDiffUtil;
 import com.squareup.picasso.Picasso;
 
@@ -75,6 +77,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         @BindView(R.id.bookCoverImageView_favoritesItemView) ImageView bookCoverImageView;
         @BindView(R.id.bookTitleTextView_favoritesItemView) TextView bookTitleTextView;
+        @BindView(R.id.bookInfoTextView_favoritesItemView) TextView bookInfoTextView;
+
+        private Book currentBook;
 
         public FavoritesViewHolder(View itemView) {
             super(itemView);
@@ -82,11 +87,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         }
 
         public void onBind(int position) {
-            final Book book = data.get(position);
-            bookTitleTextView.setText(book.getTitle());
+            currentBook = data.get(position);
+
+            bookTitleTextView.setText(currentBook.getTitle());
+            bookInfoTextView.setText(currentBook.getInformation());
+
             bookCoverImageView.post(() -> {
                 Picasso.with(context)
-                        .load(ImageRouteCreator.createCoverImageRoute(book.getId()))
+                        .load(ImageRouteCreator.createCoverImageRoute(currentBook.getId()))
                         .resize(bookCoverImageView.getMeasuredWidth(), bookCoverImageView.getMeasuredHeight())
                         .centerCrop()
                         .into(bookCoverImageView);
@@ -95,7 +103,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         @OnClick(R.id.viewInfoBtn_favoritesItemView)
         public void onClickViewInfoBtn() {
-            //TODO: Open book info view
+            Intent intent = new Intent(context, BookInformationActivity.class);
+            intent.putExtra(BookInformationActivity.BOOK_ID_TAG, this.currentBook.getId());
+            context.startActivity(intent);
         }
     }
 }

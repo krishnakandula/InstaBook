@@ -62,7 +62,7 @@ public class RandomPresenter implements RandomContract.Presenter {
 
     @Override
     public void onShowBookClicked() {
-
+        view.launchBookInformationView(currentBook.getId());
     }
 
     @Override

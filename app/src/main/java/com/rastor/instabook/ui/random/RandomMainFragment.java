@@ -1,21 +1,26 @@
 package com.rastor.instabook.ui.random;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.rastor.instabook.R;
 import com.rastor.instabook.app.MainApplication;
+import com.rastor.instabook.ui.information.BookInformationActivity;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Krishna Chaitanya Kandula on 7/14/17.
@@ -27,6 +32,7 @@ public class RandomMainFragment extends Fragment implements RandomContract.View 
 
     @BindView(R.id.page_text_view_samplePageLayout) TextView pageTextView;
     @BindView(R.id.swipeRefreshLayout_randomFragment) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.viewBookButton_randomFragment) Button viewBookInfoButton;
 
     public static final String LOG_TAG = RandomMainFragment.class.getSimpleName();
 
@@ -81,8 +87,15 @@ public class RandomMainFragment extends Fragment implements RandomContract.View 
     }
 
     @Override
-    public void launchBookInformationView() {
-        //TODO:
+    public void launchBookInformationView(@NonNull String bookId) {
+        Intent intent = new Intent(getActivity(), BookInformationActivity.class);
+        intent.putExtra(BookInformationActivity.BOOK_ID_TAG, bookId);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.viewBookButton_randomFragment)
+    public void onClickViewBookInfoButton() {
+        presenter.onShowBookClicked();
     }
 
     private void onSwipeRefreshLayout() {

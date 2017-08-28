@@ -81,8 +81,10 @@ public class FavoritesFragment extends Fragment implements FavoritesContract.Vie
     @Override
     public void setData(List<Book> data) {
         this.favoritesAdapter.setData(data);
+        favoritesRecyclerView.smoothScrollToPosition(0);
     }
 
+    //TODO: Check if this method is needed
     @Override
     public void updateData(List<Book> additionalData) {
         this.favoritesAdapter.addData(additionalData);
