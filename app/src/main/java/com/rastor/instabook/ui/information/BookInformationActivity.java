@@ -1,6 +1,7 @@
 package com.rastor.instabook.ui.information;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,19 +23,20 @@ public class BookInformationActivity extends AppCompatActivity {
 
         this.bookId = getIntent().getStringExtra(BOOK_ID_TAG);
         initializeFragments();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer_bookInformationActivity,
-                        (Fragment) bookInformationView,
-                        BookInformationFragment.LOG_TAG)
-                .commit();
     }
 
     private void initializeFragments() {
         bookInformationView = (BookInformationFragment) getSupportFragmentManager()
                 .findFragmentByTag(BookInformationFragment.LOG_TAG);
-        if(bookInformationView == null) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (bookInformationView == null) {
             bookInformationView = BookInformationFragment.newInstance(bookId);
         }
+
+        transaction.add(R.id.fragmentContainer_bookInformationActivity,
+                (Fragment) bookInformationView,
+                BookInformationFragment.LOG_TAG)
+                .commit();
     }
 
     @Override
@@ -46,5 +48,13 @@ public class BookInformationActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getSupportFragmentManager().beginTransaction()
+                .remove((Fragment) bookInformationView)
+                .commit();
     }
 }
